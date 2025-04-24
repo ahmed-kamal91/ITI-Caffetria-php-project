@@ -7,20 +7,25 @@ CREATE TABLE users (
     name VARCHAR(100),
     email VARCHAR(100) UNIQUE,
     password VARCHAR(100),
-    image_path VARCHAR(255),
+    picture VARCHAR(255),
     role ENUM('admin', 'customer') DEFAULT 'customer',
     created_at TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
-CREATE TABLE products (
+CREATE TABLE categories (
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50) UNIQUE
+);
+
+CREATE TABLE drinks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     name VARCHAR(100),
     price Decimal(10,2),
-    image_path VARCHAR(255),
-    available_quantity INT,
-    category_id INT 
+    image VARCHAR(255),
+    available BOOLEAN DEFAULT TRUE,
+    category_id INT ,
+    FOREIGN KEY (category_id) REFERENCES categories(id) ON DELETE CASCADE
 );
-
 
 CREATE TABLE orders (
     id INT AUTO_INCREMENT PRIMARY KEY,
@@ -32,12 +37,20 @@ CREATE TABLE orders (
     FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
 );
 
-CREATE TABLE order_products (
+CREATE TABLE order_drinks (
     id INT AUTO_INCREMENT PRIMARY KEY,
     order_id INT,
-    product_id INT,
-    ordered_quantity INT DEFAULT 1,
+    drink_id INT,
+    quantity INT DEFAULT 1,
     price DECIMAL(10, 2),
     FOREIGN KEY (order_id) REFERENCES orders(id) ON DELETE CASCADE,
-    FOREIGN KEY (product_id) REFERENCES products(id) ON DELETE CASCADE
+    FOREIGN KEY (drink_id) REFERENCES drinks(id) ON DELETE CASCADE
 );
+
+
+
+
+
+
+
+
