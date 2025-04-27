@@ -2,7 +2,7 @@
 // connect + query + Execute
 include_once './../connect.php';
 $sql = "SELECT * FROM drinks";
-$result = mysqli_query($connect,$sql);
+$result = mysqli_query($connect, $sql);
 ?>
 
 <html lang="en">
@@ -66,66 +66,42 @@ $result = mysqli_query($connect,$sql);
         }
 
         @keyframes loading {
-            from {
-                width: 0;
-            }
-            to {
-                width: 100%;
-            }
+            from { width: 0; }
+            to { width: 100%; }
+        }
+
+        /* --- Bonus hover effect --- */
+        .card:hover {
+            transform: translateY(-5px);
+            transition: transform 0.3s ease;
+            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
         }
     </style>
 </head>
 <body>
 
-    <!-- Toast for out-of-stock drinks -->
-    <?php if (isset($_GET['out_of_stock'])): ?>
-    <div class="toast-container">
-        <div class="toast align-items-center show" role="alert" aria-live="assertive" aria-atomic="true">
-            <div class="d-flex position-relative">
-                <div class="toast-body">
-                    This drink is out of stock!
-                    <div class="loading-bar"></div>
-                </div>
-                <button type="button" class="btn-close btn-close-white me-2 m-auto" data-bs-dismiss="toast" aria-label="Close"></button>
-            </div>
-        </div>
-    </div>
-    <?php endif; ?>
+    <!-- Toast: [path related to : redToast.php] -->
+    <?php if (isset($_GET['out_of_stock'])): include './../drinks/redToast.php'; endif; ?>
 
     <div class="container">
         <div class="row">
             <?php while ($drink = mysqli_fetch_assoc($result)) { ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="card-wrapper">
-                        <span class="price-badge rounded-5 d-flex justify-content-center align-items-center fw-bold text-dark"><?php echo $drink['price'] ?> $</span>
-                        <form action="./../note/addToNote.php" method="post">
-    <button class='btn btn-none w-100 text-start' type="submit" name="submitDrink" value="<?php echo $drink['id']; ?>">
-        <div class="card rounded-5 p-2 shadow-sm">
-            <div class="position-relative">
-                <img src="<?php echo './../' . $drink['image_path']; ?>" class="card-img-top rounded-5 border border-light bg-light" alt="<?php echo $drink['name']; ?>">
-                <?php if ($drink['available']) { ?>
-                    <span class="stock-badge">
-                        <i class="fa-solid fa-wine-glass"></i>
-                        <?php echo $drink['available']; ?>
-                    </span>
-                <?php } else { ?>
-                    <span class="stock-badge bg-danger text-white">
-                        <i class="fa-solid fa-wine-glass-empty"></i>
-                        out
-                    </span>
-                <?php } ?>
-            </div>
-            <div class="card-body">
-                <h5 class="card-title text-center"><?php echo $drink['name']; ?></h5>
-            </div>
-        </div>
-        <input type="hidden" name="drink_id" value="<?php echo $drink['id']; ?>">
-        <input type="hidden" name="drink_name" value="<?php echo $drink['name']; ?>">
-        <input type="hidden" name="drink_price" value="<?php echo $drink['price']; ?>">
-        <input type="hidden" name="drink_image" value="<?php echo $drink['image_path']; ?>">
-    </button>
-</form>
 
+                        <form action="./../note/addToNote.php" method="post" class="w-100">
+                            <!-- Hidden inputs (outside button!) -->
+                            <input type="hidden" name="drink_id" value="<?php echo $drink['id']; ?>">
+                            <input type="hidden" name="drink_name" value="<?php echo $drink['name']; ?>">
+                            <input type="hidden" name="drink_price" value="<?php echo $drink['price']; ?>">
+                            <input type="hidden" name="drink_image" value="<?php echo $drink['image_path']; ?>">
+                            <input type="hidden" name="drink_available" value="<?php echo $drink['available']; ?>">
+
+                            <button type="submit" name="submitDrink" class="btn p-0 w-100 border-0 bg-transparent">
+                                <!-- drink card [path related to : userMainPage.php] -->
+                                <?php include "./../drinks/drinkCard.php"; ?>
+                            </button>
+                        </form>
                     </div>
                 </div>
             <?php } ?>
