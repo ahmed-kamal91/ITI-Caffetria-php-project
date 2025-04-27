@@ -102,6 +102,14 @@ $conn->close();
       display: flex;
       justify-content: space-between;
     }
+    /* Add some styling for the image preview */
+    #imagePreview {
+      width: 100%;
+      height: auto;
+      max-width: 200px;
+      margin-top: 15px;
+      display: none;
+    }
   </style>
 </head>
 <body>
@@ -150,15 +158,34 @@ $conn->close();
     
     <div class="mb-3">
       <label for="profile_picture" class="form-label">Profile Picture</label>
-      <input class="form-control" type="file" id="profile_picture" name="profile_picture">
+      <input class="form-control" type="file" id="profile_picture" name="profile_picture" onchange="previewImage(event)">
     </div>
     
+    <!-- Image Preview -->
+    <img id="imagePreview" src="" alt="Image Preview" />
+
     <div class="form-buttons">
       <button type="submit" class="btn btn-primary">Save</button>
       <button type="reset" class="btn btn-secondary">Reset</button>
     </div>
   </form>
 </div>
+
+<script>
+  // JavaScript function to preview the image
+  function previewImage(event) {
+    const reader = new FileReader();
+    const file = event.target.files[0];
+    reader.onload = function() {
+      const imagePreview = document.getElementById("imagePreview");
+      imagePreview.src = reader.result;
+      imagePreview.style.display = "block"; // Make the image visible
+    };
+    if (file) {
+      reader.readAsDataURL(file); // Read the selected file as a data URL
+    }
+  }
+</script>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>

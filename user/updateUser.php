@@ -53,6 +53,9 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
         if ($stmt->execute()) {
             $message = "<div class='alert alert-success'>User updated successfully!</div>";
+            // Redirect to the viewAllUsers.php after successful update
+            header("Location: viewAllUsers.php");
+            exit; // Stop further script execution
         } else {
             $message = "<div class='alert alert-danger'>Error updating user: " . $stmt->error . "</div>";
         }
@@ -84,27 +87,27 @@ $conn->close();
                 <form action="" method="POST">
                     <div class="mb-3">
                         <label for="name">Name</label>
-                        <input type="text" name="name" class="form-control" value="<?php echo $user['name']; ?>" required>
+                        <input type="text" name="name" class="form-control" value="<?php echo htmlspecialchars($user['name']); ?>" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="email">Email</label>
-                        <input type="email" name="email" class="form-control" value="<?php echo $user['email']; ?>" required>
+                        <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                     </div>
 
                     <div class="mb-3">
                         <label for="room_no">Room No.</label>
-                        <input type="text" name="room_no" class="form-control" value="<?php echo $user['room_no']; ?>">
+                        <input type="text" name="room_no" class="form-control" value="<?php echo htmlspecialchars($user['room_no']); ?>">
                     </div>
 
                     <div class="mb-3">
                         <label for="ext">Ext.</label>
-                        <input type="text" name="ext" class="form-control" value="<?php echo $user['ext']; ?>">
+                        <input type="text" name="ext" class="form-control" value="<?php echo htmlspecialchars($user['ext']); ?>">
                     </div>
 
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">Update User</button>
-                        <a href="view_users.php" class="btn btn-secondary">Cancel</a>
+                        <a href="viewAllUsers.php" class="btn btn-secondary">Cancel</a>
                     </div>
                 </form>
             </div>

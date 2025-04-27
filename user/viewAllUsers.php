@@ -14,10 +14,8 @@ if ($conn->connect_error) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-
 $sql = "SELECT id, name, email, room_no, ext, profile_pic FROM users";
 $result = $conn->query($sql);
-
 
 if (!$result) {
     die("Query error: " . $conn->error);
@@ -39,48 +37,29 @@ if (!$result) {
             <h4 class="mb-0">All Users</h4>
         </div>
         <div class="card-body">
-            <?php if ($result->num_rows > 0): ?>
-                <div class="table-responsive">
-                    <table class="table table-bordered table-hover align-middle text-center">
-                        <thead class="table-dark">
-                            <tr>
-                                <th>ID</th>
-                                <th>Photo</th>
-                                <th>Name</th>
-                                <th>Email</th>
-                                <th>Room</th>
-                                <th>Ext.</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            <?php while($row = $result->fetch_assoc()): ?>
-                                <tr>
-                                    <td><?php echo $row["id"]; ?></td>
-                                    <td>
-                                        <?php if (!empty($row["profile_picture"])): ?>
-                                            <img src="<?php echo $row["profile_picture"]; ?>" width="60" height="60" class="rounded-circle" alt="User">
-                                        <?php else: ?>
-                                            <span class="text-muted">No Image</span>
-                                        <?php endif; ?>
-                                    </td>
-                                    <td><?php echo $row["name"]; ?></td>
-                                    <td><?php echo $row["email"]; ?></td>
-                                    <td><?php echo $row["room_no"]; ?></td>
-                                    <td><?php echo $row["ext"]; ?></td>
-                                    <td>
-                                        <!-- Edit Button -->
-                                        <a href="update_user.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
-                                        <!-- Delete Button -->
-                                        <a href="delete_user.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm" onclick="return confirm('Are you sure you want to delete this user?');">Delete</a>
-                                    </td>
-                                </tr>
-                            <?php endwhile; ?>
-                        </tbody>
-                    </table>
-                </div>
-            <?php else: ?>
-                <div class="alert alert-warning">No users found.</div>
-            <?php endif; ?>
+            <div class="row">
+                <?php if ($result->num_rows > 0): ?>
+                    <?php while($row = $result->fetch_assoc()): ?>
+                        <div class="col-md-4 mb-4">
+                            <div class="card">
+                                <img src="<?php echo !empty($row['profile_pic']) ? $row['profile_pic'] : 'default-avatar.jpg'; ?>" class="card-img-top" alt="User Photo" style="height: 200px; object-fit: cover;">
+                                <div class="card-body">
+                                    <h5 class="card-title"><?php echo $row['name']; ?></h5>
+                                    <p class="card-text">
+                                        <strong>Email:</strong> <?php echo $row['email']; ?><br>
+                                        <strong>Room No:</strong> <?php echo $row['room_no']; ?><br>
+                                        <strong>Extension:</strong> <?php echo $row['ext']; ?>
+                                    </p>
+                                    <a href="updateUser.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
+                                    <a href="DeleteUser.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm">Delete</a>
+                                </div>
+                            </div>
+                        </div>
+                    <?php endwhile; ?>
+                <?php else: ?>
+                    <div class="alert alert-warning col-12">No users found.</div>
+                <?php endif; ?>
+            </div>
         </div>
     </div>
 </div>

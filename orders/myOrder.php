@@ -1,6 +1,6 @@
 <?php
 session_start();
-require_once '../connetionDB/config.php';
+//require_once '../connetionDB/config.php';
 
 if (!$conn) {
     die("Database connection failed: " . mysqli_connect_error());
