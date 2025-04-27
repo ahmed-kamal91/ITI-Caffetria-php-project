@@ -26,4 +26,69 @@
     .w-fixed{
         width: 230px;
     }
-</style>
+    .card-wrapper {
+        position: relative;
+    }
+    .price-badge {
+        position: absolute;
+        top: -15px;
+        right: -15px;
+        width: 60px;
+        height: 60px;
+        background-color: #ffec99;
+        z-index: 1;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        font-weight: bold;
+    }
+    .stock-badge {
+        position: absolute;
+        bottom: 10px;
+        left: 10px;
+        background-color: rgb(152, 255, 176);
+        color: black;
+        padding: 5px 10px;
+        font-weight: bold;
+        border-radius: 20px;
+        z-index: 2;
+    }
+    .card-img-top {
+        position: relative;
+    }
+
+    .toast-container {
+        position: fixed;
+        top: 10px;
+        left: 10px;
+        z-index: 1050;
+    }
+
+    .toast {
+        width: 300px;
+        background-color: #dc3545;
+        color: white;
+        border-radius: 0.5rem;
+    }
+
+    .loading-bar {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        height: 5px;
+        background-color: rgba(255, 255, 255, 0.6);
+        animation: loading 3s linear forwards;
+    }
+
+    @keyframes loading {
+        from { width: 0; }
+        to { width: 100%; }
+    }
+
+    /* --- Bonus hover effect --- */
+    .card:hover {
+        transform: translateY(-5px);
+        transition: transform 0.3s ease;
+        box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+    }
+    </style>
