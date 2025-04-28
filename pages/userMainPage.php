@@ -1,4 +1,37 @@
-<!-- to auto scroll to the same part -->
+<!-- 
+ CONTENT: 
+ ========
+ 1- LOGIN
+ 2- AUTO SCROLL
+ 3- ORDER CREATION [embedded] + (handle latest order)
+
+ ----main work-------------------------------
+ 4- NOTE BUTTON + BS + FONT-AUSOME
+ 5- LIST DRINKS + ADD TO WAITER NOTE BY CLICK
+ 6- NOTE MODAL
+ --------------------------------------------
+
+ 7- GREEN TOAST: ORDER CREATED
+ 8- HANDLING ORDER TOAST APPEAEANCE
+ -->
+
+
+<!-- LOGIN -->
+<?php
+session_start();
+//   unset($_SESSION['waiterNote']); //for development
+
+// LOGIN [SIMULATION]------------------------------------------
+$_SESSION['user_id'] = "4";           // id from database [read]
+//----------------------------
+$_SESSION['user_name'] = "ali";         // name saved based on database
+$_SESSION['user_role'] = "customer";    // role saved based on db
+//--------------------------------------------------------------------
+?>
+
+
+
+<!-- AUTO SCROLL -->
 <script>
 window.addEventListener('beforeunload', function() {
     localStorage.setItem('scrollPosition', window.scrollY);
@@ -21,10 +54,8 @@ window.addEventListener('load', function() {
 </script>
 
 
-
+<!-- ORDER CREATION -->
 <?php
-session_start();
-//   unset($_SESSION['waiterNote']); //for development
 
 if(!isset($_SESSION['waiterNote'])) {
     $_SESSION['waiterNote'] = []; 
@@ -34,6 +65,7 @@ if(!isset($_SESSION['waiterNote'])) {
 if (isset($_POST['createOrderBtn'])) {
 
     // LOGIC OF CREATING THE ORDER HERE
+    include './../orders/createOrder.php';
     
     $_SESSION['order_created'] = true; // set a flag
     header("Location: " . $_SERVER['PHP_SELF']); // redirect to same page
@@ -42,35 +74,25 @@ if (isset($_POST['createOrderBtn'])) {
 
 ?>
 
-
-<html lang="en">
-    <head>
-        <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css" rel="stylesheet">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet">
-    </head>
-    <body>
-        <button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#waiterNote'>click</button>
-        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/js/bootstrap.min.js"></script>
-    </body>
-</html>
-
-
-
-
+<!-- NOTE BUTTON + BS + FONT-AUSOME -->
 <?php
-// listing items + add items by click on the note
-include_once "./../drinks/viewDrinks.php";
-print_r($_SESSION);
+include_once './../header.php'
 ?>
 
 
+
+ <!-- LIST DRINKS + ADD TO WAITER NOTE BY CLICK-->
+<?php
+include_once "./../drinks/viewDrinks.php";
+?>
+
+<!-- NOTE MODAL -->
 <?php
 include_once "./../note/NoteModal.php";
 ?>
 
 
-<!-- green toast for the current order button -->
+<!-- GREEN TOAST: ORDER CREATED -->
 <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
     <div id="orderToast" class="toast align-items-center text-white bg-success border-0 <?php echo isset($_SESSION['order_created']) ? 'show' : ''; ?>" role="alert" aria-live="assertive" aria-atomic="true">
         <div class="d-flex">
@@ -83,7 +105,7 @@ include_once "./../note/NoteModal.php";
 </div>
 
 
-<!-- variable for the current order -->
+<!-- HANDLING ORDER TOAST APPEAEANCE -->
 <?php
 // Unset the flag so it doesn't appear again
 if (isset($_SESSION['order_created'])) {
