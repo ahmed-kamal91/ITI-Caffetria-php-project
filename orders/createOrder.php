@@ -1,29 +1,36 @@
 <?php
-?>
+session_start();
 
-<html lang="en">
-<head>
-    <title>Document</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.5/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-SgOJa3DmI69IUzQ2PVdRZhwQ+dy64/BUtbMJw1MZ8t5HZApcHrRKUc4W0kG879m7" crossorigin="anonymous">
-</head>
-<body>
 
-<div class="container">
+// connect + query + execute
+include_once "./../connect.php";
 
-</div>
+// data needed to create order
+$userId = $_SESSION['user_id'];
+$status = 'Processing';                 // default
+$notes = "add 3 sugar please";          // need to be handled later
+$totalPrice = $_SESSION['total_price'];
+
+// Create order: query + execute
+$sql = "INSERT INTO orders (user_id, status, total, notes) VALUES ($userId, '$status', '$totalPrice', '$notes')";
+$result = mysqli_query($connect, $sql);
+$orderId = mysqli_insert_id($connect);
+
+// add drinks to the order
+foreach ($_SESSION['waiterNote'] as $productId => $productData) {
     
-</body>
-</html>
+    $quantity = $productData['stock'];  // quantity = stock
+    $price = $productData['price'];
+    $drinkSql = "INSERT INTO order_drinks (order_id, drink_id, quantity, price) 
+                 VALUES ($orderId, $productId, $quantity, $price)";
+    
+    mysqli_query($connect, $drinkSql);
+}
 
+//---add-change-the-latest-order------------------------------------
+$_SESSION['latestOrder'] = array_slice($_SESSION['waiterNote'], 0, 4, true);
+//------------------------------------------------------------------
 
-
-
-<!-- 
-create order
------------
-list the orders
-choose from the products added 
-appear in the list notes
-click on it more increase the quntity in the note
-increase or decreas the quantity of the added item in the note
--->
+// feedback 
+echo "Order created successfully. Order ID: " . $orderId;
+?>
