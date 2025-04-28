@@ -1,15 +1,14 @@
 <?php
 
-
-// Connect to the database
+// CONNECT
 include_once './../connect.php';
 
-// Pagination settings
-$limit = 8;  // Number of drinks per page
+// PAGINATION
+$limit = 8;  // num of drinks in page
 $page = isset($_GET['page']) ? $_GET['page'] : 1;
 $offset = ($page - 1) * $limit;
 
-// Search query
+// SEARCH QUERY
 $searchQuery = '';
 $searchValue = '';
 if (isset($_GET['search'])) {
@@ -18,16 +17,24 @@ if (isset($_GET['search'])) {
     $searchQuery = " WHERE name LIKE '%$search%'";
 }
 
-// Get the total number of drinks
+// GET TOTAL NUM OF DRINKS
 $totalQuery = "SELECT COUNT(*) AS total FROM drinks" . $searchQuery;
 $totalResult = mysqli_query($connect, $totalQuery);
 $totalRow = mysqli_fetch_assoc($totalResult);
 $totalDrinks = $totalRow['total'];
 $totalPages = ceil($totalDrinks / $limit);
 
-// Get drinks based on search and pagination
+// GET: DRINK BASED ON SEARCH & PAGINATION
 $sql = "SELECT * FROM drinks" . $searchQuery . " LIMIT $limit OFFSET $offset";
 $result = mysqli_query($connect, $sql);
+
+
+// GET USERS DATA
+$userSql = "SELECT * FROM users";
+$userResult = mysqli_query($connect, $userSql);
+
+
+
 ?>
 
 <html lang="en">
@@ -80,22 +87,40 @@ $result = mysqli_query($connect, $sql);
 
         <!-- Latest order section -->
         <?php 
-            ////////////////////////LATEST/ORDER////////////////////////////
-            echo "<h2>Admin Choose User</h2>"
-            ////////////////////////////////////////////////////////////////
+            echo "<h2>Admin Choose User</h2>";
         ?>
 
-        <!-- Search form -->
+        <!-- Search form + Dropdown -->
         <div class="row mb-4" id="searchSection">
             <div class="col-12">
-                <form action="" method="get" class="d-flex justify-content-center">
-                    <input type="text" name="search" class="form-control w-50" placeholder="Search drinks..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
-                    <button type="submit" class="btn btn-primary ms-2">Search</button>
+                <form action="" method="get" class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
+                    
+                    <!-- Dropdown (for future dynamic options) -->
+                    <!-- list-------------------------------------------------- -->
+                    <select name="filter" class="form-select w-auto">   
+                        <option value="">Choose Option</option>                         
+                        <?php while($users = mysqli_fetch_assoc($userResult)){
+                        echo "<option value=".$users['id'].">".$users['name'].":".$users['email']."</option> ";}?>
+                    <!-- ------------------------------------------------------ -->
+
+
+                    <!-- Search Input -->
+                    <input 
+                        type="text" 
+                        name="search" 
+                        class="form-control w-50" 
+                        placeholder="Search drinks..." 
+                        value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+                    >
+
+                    <!-- Search Button -->
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i> Search
+                    </button>
+
                 </form>
             </div>
         </div>
-
-
 
         <!-- Display drinks -->
         <div class="row d-flex justify-content-center">
@@ -124,7 +149,7 @@ $result = mysqli_query($connect, $sql);
             <ul class="pagination justify-content-center">
                 <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
                     <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
-                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>">
                             <?php echo $i; ?>
                         </a>
                     </li>
