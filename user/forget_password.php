@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require_once '../connetionDB/config.php';
+require_once '../connect.php';
 
 $step = 1;
 $error = '';
@@ -12,7 +12,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $email = trim($_POST['email']);
         
         $query = "SELECT id FROM users WHERE email = ?";
-        $stmt = mysqli_prepare($conn, $query);
+        $stmt = mysqli_prepare($connect, $query);
         mysqli_stmt_bind_param($stmt, 's', $email);
         mysqli_stmt_execute($stmt);
         $result = mysqli_stmt_get_result($stmt);
@@ -33,7 +33,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
             $hashed_password = password_hash($new_password, PASSWORD_DEFAULT);
             
             $query = "UPDATE users SET password = ? WHERE email = ?";
-            $stmt = mysqli_prepare($conn, $query);
+            $stmt = mysqli_prepare($connect, $query);
             mysqli_stmt_bind_param($stmt, 'ss', $hashed_password, $_SESSION['reset_email']);
             if (mysqli_stmt_execute($stmt)) {
                 $success = "Password updated successfully!";

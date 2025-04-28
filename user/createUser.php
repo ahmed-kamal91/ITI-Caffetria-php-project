@@ -4,10 +4,10 @@ $success = "";
 $error = "";
 
 // Database Connection
-$servername = "localhost"; // or your server name
-$username = "root";         // your db username
-$password_db = "";          // your db password
-$database = "users"; // your database name
+$servername = "localhost";
+$username = "root";
+$password_db = "1234";
+$database = "PHP_Project";
 
 $conn = new mysqli($servername, $username, $password_db, $database);
 
@@ -21,8 +21,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $email = $_POST['email'] ?? '';
     $password = $_POST['password'] ?? '';
     $confirm_password = $_POST['confirm_password'] ?? '';
-    $room = $_POST['room'] ?? '';
-    $ext = $_POST['ext'] ?? '';
+    $role = 'customer'; // Default role
 
     if (empty($name) || empty($email) || empty($password) || empty($confirm_password)) {
         $error = "Please fill all required fields.";
@@ -30,36 +29,66 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         $error = "Passwords do not match.";
     } else {
         // Handle file upload
-        $profile_picture = null;
+        $picture = null;
         if (isset($_FILES['profile_picture']) && $_FILES['profile_picture']['error'] == 0) {
-            $target_dir = "uploads/";
+            $target_dir = "./../uploads/users/";
+
+            // Create directory if it doesn't exist
             if (!file_exists($target_dir)) {
-                mkdir($target_dir, 0777, true);
+                if (!mkdir($target_dir, 0755, true)) {
+                    $error = "Failed to create upload directory.";
+                }
             }
-            $profile_picture = $target_dir . basename($_FILES["profile_picture"]["name"]);
-            move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $profile_picture);
+
+            if (empty($error)) {
+                $file_extension = pathinfo($_FILES["profile_picture"]["name"], PATHINFO_EXTENSION);
+
+                // Clean the user's name to create a safe file name
+                $safe_name = preg_replace('/[^A-Za-z0-9_\-]/', '_', strtolower($name));
+                $unique_filename = $safe_name . '_' . uniqid() . '.' . $file_extension;
+                $picture = $target_dir . $unique_filename;
+
+                // Validate file type and size
+                $allowed_types = ['jpg', 'jpeg', 'png', 'gif'];
+                $max_size = 2 * 1024 * 1024; // 2MB
+
+                if (!in_array(strtolower($file_extension), $allowed_types)) {
+                    $error = "Only JPG, JPEG, PNG & GIF files are allowed.";
+                } elseif ($_FILES["profile_picture"]["size"] > $max_size) {
+                    $error = "File size must be less than 2MB.";
+                } elseif (!move_uploaded_file($_FILES["profile_picture"]["tmp_name"], $picture)) {
+                    $error = "Sorry, there was an error uploading your file.";
+                }
+            }
         }
 
-        // Hash the password
-        $hashed_password = password_hash($password, PASSWORD_DEFAULT);
+        if (empty($error)) {
+            // Hash the password
+            $hashed_password = password_hash($password, PASSWORD_DEFAULT);
 
-        // Prepare Insert
-        $sql = "INSERT INTO users (name, email, password, room_no, ext, profile_pic) VALUES (?, ?, ?, ?, ?, ?)";
-        $stmt = $conn->prepare($sql);
-        
-        if (!$stmt) {
-            die("Prepare failed: " . $conn->error);
-        }
-        
-        $stmt->bind_param("ssssss", $name, $email, $hashed_password, $room, $ext, $profile_picture);
-        
-        if ($stmt->execute()) {
-            $success = "User '$name' has been added successfully!";
-        } else {
-            $error = "Error: " . $stmt->error;
-        }
+            // Prepare Insert
+            $sql = "INSERT INTO users (name, email, password, image_path, role) VALUES (?, ?, ?, ?, ?)";
+            $stmt = $conn->prepare($sql);
 
-        $stmt->close();
+            if (!$stmt) {
+                die("Prepare failed: " . $conn->error);
+            }
+
+            $stmt->bind_param("sssss", $name, $email, $hashed_password, $picture, $role);
+
+            if ($stmt->execute()) {
+                $success = "User '$name' has been registered successfully!";
+                $_POST = array(); // Clear form
+            } else {
+                if ($conn->errno == 1062) {
+                    $error = "This email is already registered.";
+                } else {
+                    $error = "Error: " . $stmt->error;
+                }
+            }
+
+            $stmt->close();
+        }
     }
 }
 
@@ -70,7 +99,8 @@ $conn->close();
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <title>Add User</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>User Registration</title>
   <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
   <style>
     body {
@@ -101,6 +131,14 @@ $conn->close();
     .form-buttons {
       display: flex;
       justify-content: space-between;
+      margin-top: 20px;
+    }
+    .required-field::after {
+      content: " *";
+      color: red;
+    }
+    .alert {
+      margin-bottom: 20px;
     }
     /* Add some styling for the image preview */
     #imagePreview {
@@ -113,63 +151,54 @@ $conn->close();
   </style>
 </head>
 <body>
+  <div class="form-container">
+    <h2 class="form-title">User Registration</h2>
 
-<div class="form-container">
-  <h2 class="form-title">Add User</h2>
+    <?php if (!empty($success)): ?>
+      <div class="alert alert-success"><?php echo $success; ?></div>
+    <?php endif; ?>
 
-  <?php if (!empty($success)) : ?>
-    <div class="alert alert-success"><?php echo $success; ?></div>
-  <?php endif; ?>
+    <?php if (!empty($error)): ?>
+      <div class="alert alert-danger"><?php echo $error; ?></div>
+    <?php endif; ?>
 
-  <?php if (!empty($error)) : ?>
-    <div class="alert alert-danger"><?php echo $error; ?></div>
-  <?php endif; ?>
+    <form action="" method="POST" enctype="multipart/form-data">
+      <div class="mb-3">
+        <label for="name" class="form-label required-field">Full Name</label>
+        <input type="text" class="form-control" id="name" name="name" 
+               value="<?php echo htmlspecialchars($_POST['name'] ?? ''); ?>" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="email" class="form-label required-field">Email Address</label>
+        <input type="email" class="form-control" id="email" name="email" 
+               value="<?php echo htmlspecialchars($_POST['email'] ?? ''); ?>" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="password" class="form-label required-field">Password</label>
+        <input type="password" class="form-control" id="password" name="password" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="confirm_password" class="form-label required-field">Confirm Password</label>
+        <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
+      </div>
+      
+      <div class="mb-3">
+        <label for="profile_picture" class="form-label">Profile Picture</label>
+        <input class="form-control" type="file" id="profile_picture" name="profile_picture" accept="image/*">
+        <div class="form-text">Max 2MB (JPG, PNG, GIF only)</div>
+      </div>
+      
+      <div class="form-buttons">
+        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="reset" class="btn btn-secondary">Clear Form</button>
+      </div>
+    </form>
+  </div>
 
-  <form action="" method="POST" enctype="multipart/form-data">
-    <div class="mb-3">
-      <label for="name" class="form-label">Name *</label>
-      <input type="text" class="form-control" id="name" name="name" value="<?php echo htmlspecialchars($_POST['name'] ?? '') ?>" required>
-    </div>
-    
-    <div class="mb-3">
-      <label for="email" class="form-label">Email address *</label>
-      <input type="email" class="form-control" id="email" name="email" value="<?php echo htmlspecialchars($_POST['email'] ?? '') ?>" required>
-    </div>
-    
-    <div class="mb-3">
-      <label for="password" class="form-label">Password *</label>
-      <input type="password" class="form-control" id="password" name="password" required>
-    </div>
-    
-    <div class="mb-3">
-      <label for="confirm_password" class="form-label">Confirm Password *</label>
-      <input type="password" class="form-control" id="confirm_password" name="confirm_password" required>
-    </div>
-    
-    <div class="mb-3">
-      <label for="room" class="form-label">Room No.</label>
-      <input type="text" class="form-control" id="room" name="room" value="<?php echo htmlspecialchars($_POST['room'] ?? '') ?>">
-    </div>
-    
-    <div class="mb-3">
-      <label for="ext" class="form-label">Ext.</label>
-      <input type="text" class="form-control" id="ext" name="ext" value="<?php echo htmlspecialchars($_POST['ext'] ?? '') ?>">
-    </div>
-    
-    <div class="mb-3">
-      <label for="profile_picture" class="form-label">Profile Picture</label>
-      <input class="form-control" type="file" id="profile_picture" name="profile_picture" onchange="previewImage(event)">
-    </div>
-    
-    <!-- Image Preview -->
-    <img id="imagePreview" src="" alt="Image Preview" />
-
-    <div class="form-buttons">
-      <button type="submit" class="btn btn-primary">Save</button>
-      <button type="reset" class="btn btn-secondary">Reset</button>
-    </div>
-  </form>
-</div>
+  
 
 <script>
   // JavaScript function to preview the image

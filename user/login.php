@@ -1,6 +1,6 @@
 <?php
 session_start();
-//require_once '../connetionDB/config.php';
+require_once '../connect.php';
 
 if (isset($_SESSION['user_id'])) {
     header("Location: user_home.php");
@@ -13,7 +13,7 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
     $password = $_POST['password'];
     
     $query = "SELECT id, name, password, role FROM users WHERE email = ?";
-    $stmt = mysqli_prepare($conn, $query);
+    $stmt = mysqli_prepare($connect, $query);
     mysqli_stmt_bind_param($stmt, 's', $email);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);

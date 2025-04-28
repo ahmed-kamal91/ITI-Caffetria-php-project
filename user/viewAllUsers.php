@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
-$dbname = "users"; // change this
+$password = "1234";
+$dbname = "PHP_Project"; // change this
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -14,7 +14,7 @@ if ($conn->connect_error) {
 error_reporting(E_ALL);
 ini_set('display_errors', 1);
 
-$sql = "SELECT id, name, email, room_no, ext, profile_pic FROM users";
+$sql = "SELECT id, name, email, image_path FROM users";
 $result = $conn->query($sql);
 
 if (!$result) {
@@ -42,13 +42,11 @@ if (!$result) {
                     <?php while($row = $result->fetch_assoc()): ?>
                         <div class="col-md-4 mb-4">
                             <div class="card">
-                                <img src="<?php echo !empty($row['profile_pic']) ? $row['profile_pic'] : 'default-avatar.jpg'; ?>" class="card-img-top" alt="User Photo" style="height: 200px; object-fit: cover;">
+                                <img src="<?php echo !empty($row['image_path']) ? $row['image_path'] : 'default-avatar.jpg'; ?>" class="card-img-top" alt="User Photo" style="height: 200px; object-fit: cover;">
                                 <div class="card-body">
                                     <h5 class="card-title"><?php echo $row['name']; ?></h5>
                                     <p class="card-text">
                                         <strong>Email:</strong> <?php echo $row['email']; ?><br>
-                                        <strong>Room No:</strong> <?php echo $row['room_no']; ?><br>
-                                        <strong>Extension:</strong> <?php echo $row['ext']; ?>
                                     </p>
                                     <a href="updateUser.php?id=<?php echo $row['id']; ?>" class="btn btn-warning btn-sm">Edit</a>
                                     <a href="DeleteUser.php?id=<?php echo $row['id']; ?>" class="btn btn-danger btn-sm">Delete</a>

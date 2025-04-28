@@ -1,8 +1,8 @@
 <?php
 session_start();
-//require_once '../connetionDB/config.php';
+require_once '../connect.php';
 
-if (!$conn) {
+if (!$connect) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
@@ -52,7 +52,7 @@ if ($dateTo) {
     $countTypes .= "s";
 }
 
-$countStmt = mysqli_prepare($conn, $countSql);
+$countStmt = mysqli_prepare($connect, $countSql);
 $totalOrders = 0;
 if ($countStmt) {
     mysqli_stmt_bind_param($countStmt, $countTypes, ...$countParams);
@@ -62,7 +62,7 @@ if ($countStmt) {
     $totalOrders = $countRow['total_count'];
     mysqli_stmt_close($countStmt);
 } else {
-    error_log("Error preparing count statement: " . mysqli_error($conn));
+    error_log("Error preparing count statement: " . mysqli_error($connect));
 }
 
 $totalPages = ceil($totalOrders / $itemsPerPage);
@@ -87,7 +87,7 @@ $sql .= " ORDER BY created_at DESC LIMIT ?, ?";
 $params = array_merge($baseParams, [$offset, $itemsPerPage]);
 $types = $baseTypes . "ii";
 
-$stmt = mysqli_prepare($conn, $sql);
+$stmt = mysqli_prepare($connect, $sql);
 if ($stmt) {
      mysqli_stmt_bind_param($stmt, $types, ...$params);
 
@@ -97,7 +97,7 @@ if ($stmt) {
     while ($row = mysqli_fetch_assoc($result)) {
         $orderItemsSql = "SELECT oi.quantity, oi.note, p.name AS product_name, p.price AS product_price, p.image AS image_p
                           FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?";
-        $itemStmt = mysqli_prepare($conn, $orderItemsSql);
+        $itemStmt = mysqli_prepare($connect, $orderItemsSql);
         $items = [];
         if ($itemStmt) {
             mysqli_stmt_bind_param($itemStmt, "i", $row['id']);
@@ -108,7 +108,7 @@ if ($stmt) {
             }
             mysqli_stmt_close($itemStmt);
         } else {
-            error_log("Error preparing item statement: " . mysqli_error($conn));
+            error_log("Error preparing item statement: " . mysqli_error($connect));
         }
         $row['items'] = $items;
         $orders[] = $row;
@@ -116,10 +116,10 @@ if ($stmt) {
     }
     mysqli_stmt_close($stmt);
 } else {
-    error_log("Error preparing order statement: " . mysqli_error($conn));
+    error_log("Error preparing order statement: " . mysqli_error($connect));
 }
 
-mysqli_close($conn);
+mysqli_close($connect);
 
 function buildPaginationUrl($page, $dateFrom, $dateTo) {
     $queryParams = ['page' => $page];

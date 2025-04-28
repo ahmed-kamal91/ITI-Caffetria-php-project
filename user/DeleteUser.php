@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
-$dbname = "users"; // change this
+$password = "1234";
+$dbname = "PHP_Project"; // change this
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -80,8 +80,6 @@ $conn->close();
                 <p class="text-center">Are you sure you want to delete the following user?</p>
                 <p><strong>Name:</strong> <?php echo $user['name']; ?></p>
                 <p><strong>Email:</strong> <?php echo $user['email']; ?></p>
-                <p><strong>Room No:</strong> <?php echo $user['room_no']; ?></p>
-                <p><strong>Ext:</strong> <?php echo $user['ext']; ?></p>
                 
                 <form action="" method="POST" class="d-flex justify-content-center">
                     <button type="submit" class="btn btn-danger me-2">Yes, Delete</button>

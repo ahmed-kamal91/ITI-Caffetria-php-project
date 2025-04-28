@@ -1,8 +1,8 @@
 <?php
 $servername = "localhost";
 $username = "root";
-$password = "";
-$dbname = "users"; // change this
+$password = "1234";
+$dbname = "PHP_Project"; // change this
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -41,15 +41,13 @@ if (isset($_GET['id'])) {
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'];
     $email = $_POST['email'];
-    $room = $_POST['room_no'];
-    $ext = $_POST['ext'];
 
     // Prepare UPDATE query
-    $sql = "UPDATE users SET name = ?, email = ?, room_no = ?, ext = ? WHERE id = ?";
+    $sql = "UPDATE users SET name = ?, email = ? WHERE id = ?";
     $stmt = $conn->prepare($sql);
 
     if ($stmt) {
-        $stmt->bind_param("sssii", $name, $email, $room, $ext, $user_id);
+        $stmt->bind_param("ssi", $name, $email, $user_id);
 
         if ($stmt->execute()) {
             $message = "<div class='alert alert-success'>User updated successfully!</div>";
@@ -95,16 +93,7 @@ $conn->close();
                         <input type="email" name="email" class="form-control" value="<?php echo htmlspecialchars($user['email']); ?>" required>
                     </div>
 
-                    <div class="mb-3">
-                        <label for="room_no">Room No.</label>
-                        <input type="text" name="room_no" class="form-control" value="<?php echo htmlspecialchars($user['room_no']); ?>">
-                    </div>
-
-                    <div class="mb-3">
-                        <label for="ext">Ext.</label>
-                        <input type="text" name="ext" class="form-control" value="<?php echo htmlspecialchars($user['ext']); ?>">
-                    </div>
-
+                   
                     <div class="d-flex gap-2">
                         <button type="submit" class="btn btn-success">Update User</button>
                         <a href="viewAllUsers.php" class="btn btn-secondary">Cancel</a>
