@@ -18,6 +18,7 @@
 
 <!-- LOGIN -->
 <?php
+
 session_start();
 //   unset($_SESSION['waiterNote']); //for development
 

@@ -3,7 +3,7 @@ session_start();
 
 
 // connect + query + execute
-include_once "./../connect.php";
+require_once '../connect.php';
 
 // data needed to create order
 $userId = $_SESSION['user_id'];

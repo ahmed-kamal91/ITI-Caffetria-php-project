@@ -118,8 +118,11 @@ if ($stmt) {
     $result = mysqli_stmt_get_result($stmt);
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $orderItemsSql = "SELECT oi.quantity, oi.note, p.name AS product_name, p.price AS product_price, p.image AS image_p
-                          FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?";
+        $orderItemsSql = "SELECT od.quantity, d.name AS product_name, d.price AS product_price, d.image_path AS image_p
+FROM order_drinks od 
+JOIN drinks d ON od.drink_id = d.id 
+WHERE od.order_id = ?";
+
         $itemStmt = mysqli_prepare($connect, $orderItemsSql);
         $items = [];
         if ($itemStmt) {
@@ -431,7 +434,7 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
                                     </div>
                                     <div>
                                         <strong class="text-success">
-                                            <?php echo htmlspecialchars(number_format($order['total_price'], 2)); ?> EGP
+                                            <?php echo htmlspecialchars(number_format($order['total'], 2)); ?> EGP
                                         </strong>
                                     </div>
                                     <div class="action-column">

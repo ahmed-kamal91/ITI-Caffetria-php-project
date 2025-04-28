@@ -74,6 +74,31 @@ INSERT INTO drinks (name, price, image_path, available, category_id) VALUES
 ('Coffee with Cinnamon Stick', 2.30, 'uploads/drinks/coffeWithCinamonStick.jpg', TRUE, 1),
 ('Orange Juice', 1.90, 'uploads/drinks/orangeJuice.jpg', TRUE, 2);
 
+SET SQL_SAFE_UPDATES = 0;
+
 -- View All Drinks
 SELECT * FROM drinks;
+SELECT * FROM categories;
 
+
+
+-- -----------CHANGE ON DATA-------
+UPDATE drinks
+SET image_path = REPLACE(image_path, '.jpg', '.png')
+WHERE image_path LIKE '%.jpg';
+
+-- Set available stock for drinks with IDs 1, 5, and 8 to 0
+UPDATE drinks
+SET available = 0
+WHERE id IN (1, 5, 8);
+
+-- Set random available stock (between 1 and 20) for all other drinks
+UPDATE drinks
+SET available = FLOOR(1 + (RAND() * 20))
+WHERE id NOT IN (1, 5, 8);
+
+-- ------ALTERATION ON THE STRUCTURE OF THE DATA---------------
+CREATE TABLE note (
+userId INT ,
+drinkId INT
+);
