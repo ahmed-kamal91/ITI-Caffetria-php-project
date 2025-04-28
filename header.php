@@ -6,9 +6,14 @@
 <body>
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <div class="container">
+        <div class="container d-flex align-items-center justify-content-between">
             <!-- Logo on the left -->
-            <a class="navbar-brand" href="#">Logo</a>
+            <a class="navbar-brand d-flex align-items-center" href="#">
+                <h1 class="d-flex align-items-center mb-0">
+                    <img src="./../uploads/icons/logo3.png" alt="" width="60px">
+                    affetria
+                </h1>
+            </a>
 
             <!-- Button on the right -->
             <button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#waiterNote'>click</button>
