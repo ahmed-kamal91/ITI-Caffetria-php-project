@@ -1,7 +1,35 @@
 <?php
-// connect + query + Execute
+
+if(!isset($_SESSION['latestOrder'])){
+    $_SESSION['latestOrder'] = [];
+}
+
+// Connect to the database
 include_once './../connect.php';
-$sql = "SELECT * FROM drinks";
+
+// Pagination settings
+$limit = 8;  // Number of drinks per page
+$page = isset($_GET['page']) ? $_GET['page'] : 1;
+$offset = ($page - 1) * $limit;
+
+// Search query
+$searchQuery = '';
+$searchValue = '';
+if (isset($_GET['search'])) {
+    $searchValue = $_GET['search'];
+    $search = mysqli_real_escape_string($connect, $_GET['search']);
+    $searchQuery = " WHERE name LIKE '%$search%'";
+}
+
+// Get the total number of drinks
+$totalQuery = "SELECT COUNT(*) AS total FROM drinks" . $searchQuery;
+$totalResult = mysqli_query($connect, $totalQuery);
+$totalRow = mysqli_fetch_assoc($totalResult);
+$totalDrinks = $totalRow['total'];
+$totalPages = ceil($totalDrinks / $limit);
+
+// Get drinks based on search and pagination
+$sql = "SELECT * FROM drinks" . $searchQuery . " LIMIT $limit OFFSET $offset";
 $result = mysqli_query($connect, $sql);
 ?>
 
@@ -41,56 +69,59 @@ $result = mysqli_query($connect, $sql);
         .card-img-top {
             position: relative;
         }
-
-        .toast-container {
-            position: fixed;
-            top: 10px;
-            left: 10px;
-            z-index: 1050;
-        }
-
-        .toast {
-            width: 300px;
-            background-color: #dc3545;
-            color: white;
-            border-radius: 0.5rem;
-        }
-
-        .loading-bar {
-            position: absolute;
-            bottom: 0;
-            left: 0;
-            height: 5px;
-            background-color: rgba(255, 255, 255, 0.6);
-            animation: loading 3s linear forwards;
-        }
-
-        @keyframes loading {
-            from { width: 0; }
-            to { width: 100%; }
-        }
-
-        /* --- Bonus hover effect --- */
-        .card:hover {
-            transform: translateY(-5px);
-            transition: transform 0.3s ease;
-            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.2);
+        .hidden-section {
+            display: none;
         }
     </style>
+    <script>
+        function toggleLatestOrder() {
+            var latestOrderSection = document.getElementById("latestOrderSection");
+            var searchSection = document.getElementById("searchSection");
+
+            // Toggle visibility
+            latestOrderSection.classList.toggle("hidden-section");
+            searchSection.classList.toggle("hidden-section");
+        }
+    </script>
 </head>
 <body>
 
     <!-- Toast: [path related to : redToast.php] -->
     <?php if (isset($_GET['out_of_stock'])): include './../drinks/redToast.php'; endif; ?>
 
-    <div class="container">
-        <div class="row">
+    <div class="container border text-center">
+
+        <!-- Latest order section -->
+        <?php 
+            ////////////////////////LATEST/ORDER////////////////////////////
+            if (!isset($_GET['search']) || empty($_GET['search'])) {
+                include './../drinks/DrinksLatestOrderSection.php';
+            }
+            ////////////////////////////////////////////////////////////////
+        ?>
+
+        <!-- Search form -->
+        <div class="row mb-4" id="searchSection">
+            <div class="col-12">
+                <form action="" method="get" class="d-flex justify-content-center">
+                    <input type="text" name="search" class="form-control w-50" placeholder="Search drinks..." value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                    <button type="submit" class="btn btn-primary ms-2">Search</button>
+                </form>
+            </div>
+        </div>
+
+        <!-- Button to show latest order again -->
+        <?php if (isset($_GET['search']) && !empty($_GET['search'])) { ?>
+            <button onclick="toggleLatestOrder()" class="btn btn-secondary mb-4">Show Latest Orders</button>
+        <?php } ?>
+
+        <!-- Display drinks -->
+        <div class="row d-flex justify-content-center">
             <?php while ($drink = mysqli_fetch_assoc($result)) { ?>
                 <div class="col-12 col-sm-6 col-md-4 col-lg-3 mb-4">
                     <div class="card-wrapper">
-
                         <form action="./../note/addToNote.php" method="post" class="w-100">
-                            <!-- Hidden inputs (outside button!) -->
+                            <!-- Hidden inputs -->
                             <input type="hidden" name="drink_id" value="<?php echo $drink['id']; ?>">
                             <input type="hidden" name="drink_name" value="<?php echo $drink['name']; ?>">
                             <input type="hidden" name="drink_price" value="<?php echo $drink['price']; ?>">
@@ -98,7 +129,6 @@ $result = mysqli_query($connect, $sql);
                             <input type="hidden" name="drink_available" value="<?php echo $drink['available']; ?>">
 
                             <button type="submit" name="submitDrink" class="btn p-0 w-100 border-0 bg-transparent">
-                                <!-- drink card [path related to : userMainPage.php] -->
                                 <?php include "./../drinks/drinkCard.php"; ?>
                             </button>
                         </form>
@@ -106,6 +136,20 @@ $result = mysqli_query($connect, $sql);
                 </div>
             <?php } ?>
         </div>
+
+        <!-- Pagination -->
+        <nav aria-label="Page navigation">
+            <ul class="pagination justify-content-center">
+                <?php for ($i = 1; $i <= $totalPages; $i++) { ?>
+                    <li class="page-item <?php echo $i == $page ? 'active' : ''; ?>">
+                        <a class="page-link" href="?page=<?php echo $i; ?>&search=<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>">
+                            <?php echo $i; ?>
+                        </a>
+                    </li>
+                <?php } ?>
+            </ul>
+        </nav>
+
     </div>
 
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.6/dist/umd/popper.min.js"></script>
