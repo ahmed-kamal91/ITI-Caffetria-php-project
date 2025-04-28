@@ -26,6 +26,12 @@ function addDrink($drink_id){
             'stock' => 1, 'available' => $_POST['drink_available'], 'name' => $_POST['drink_name'], //<==look here for available
             'price' => $_POST['drink_price'],'image_path' => $_POST['drink_image']];
         $_SESSION['waiterNote'][$drink_id] = $productInfo;
+
+        // calculate the total price
+        $total = array_reduce($_SESSION['waiterNote'], function($sum, $item) {
+            return $sum + ($item['price'] * $item['stock']);}, 0); 
+            $_SESSION['total_price'] = $total;
+
     }
 }
 

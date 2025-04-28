@@ -9,19 +9,32 @@
             </div>
 
             <!-- body -->
-            <div class="modal-body">
+            <div class="modal-body p-0">
 
                 <!-- path related to : useMainPage.php -->
-                <?php include_once "./../note/renderNote.php" ?>
+                <iframe src="./../note/renderNote.php" name='renderNoteFrame' class='p-0 m-0 w-100' style='height:600px'></iframe>
 
             </div>
 
             <!-- footer -->
+
             <div class="modal-footer">
-                <form action="" method='POST'>
-                    <button class="btn btn-primary" name='createOrderBtn'>Crete Order</button>
-                </form>
-                <button class="btn btn-danger">resst</button>
+
+                <div class="container d-flex flex-column">
+
+                    <!-- view the the calculated total price -->
+                    <div class="d-flex align-items-center mb-2">
+                        <h3 class="m-0 me-2">Notes:</h3>
+                        <input type="text" class="form-control" name='userNote'>
+                    </div>
+                    <!-- create order button -->
+                    <form action="" method='POST' class='w-100'>
+                        <button class="btn btn-primary w-100 p-2" name='createOrderBtn'>Crete Order</button>
+                    </form>
+
+                </div>
+
+
             </div>
 
         </div>

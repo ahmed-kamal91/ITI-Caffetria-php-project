@@ -24,16 +24,16 @@ window.addEventListener('load', function() {
 
 <?php
 session_start();
-//  unset($_SESSION['waiterNote']); //for development
+//   unset($_SESSION['waiterNote']); //for development
 
 if(!isset($_SESSION['waiterNote'])) {
     $_SESSION['waiterNote'] = []; 
 }
 
-
 // for current order
 if (isset($_POST['createOrderBtn'])) {
-    // Do your PHP logic (like saving order etc.)
+
+    // LOGIC OF CREATING THE ORDER HERE
     
     $_SESSION['order_created'] = true; // set a flag
     header("Location: " . $_SERVER['PHP_SELF']); // redirect to same page

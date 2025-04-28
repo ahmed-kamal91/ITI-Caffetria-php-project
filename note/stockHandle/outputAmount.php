@@ -1,6 +1,6 @@
-<?php 
-    session_start();
-    $drinkId = $_GET['drinkId'];
+<?php
+session_start();
+$drinkId = $_GET['drinkId']; // Get the drinkId from the URL
 ?>
 
 <html>
@@ -9,7 +9,12 @@
 </head>
 <body class="d-flex justify-content-center align-items-center">
 
-    <h1><?php echo $_SESSION['waiterNote'][$drinkId]['stock']; ?></h1>
+    <?php 
+    // Check if the drink exists in the session before displaying the stock
+    if (isset($_SESSION['waiterNote'][$drinkId])) {
+        echo "<h1>" . $_SESSION['waiterNote'][$drinkId]['stock'] . "</h1>";
+    } 
+    ?>
 
 </body>
 </html>

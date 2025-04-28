@@ -6,50 +6,54 @@
             <?php include "./../drinks/drinkCard.php" ?>
         </div>
 
-        <!-- amount-price [sub] -->
-        <div class="col d-flex flex-column justify-content-center align-items-center pe-5 text-center mb-2">
-            <h3>
-                <!-- UNIQUE iframe name based on drinkId -->
-                <iframe 
-                    name="counterFrame_<?php echo $drinkId; ?>" 
-                    src="./../note/stockHandle/outputAmount.php?drinkId=<?php echo $drinkId; ?>" 
-                    style="border:1px solid #000; width:50px; height:50px; overflow:hidden; "
-                    scrolling='no'>
-                </iframe>
-                x 
-                <?php echo $_SESSION['waiterNote'][$drinkId]['price'] ?>$
-                
-            </h3>
+<!-- amount-price [sub] -->
+<div class="col position-relative d-flex flex-column justify-content-center align-items-center pe-5 text-center mb-2">
 
-            <div class="input-group d-flex justify-content-center align-items-center mb-5">
+    <!-- remove the direct -->
+    <form action='./../note/removeFromNote.php' method='POST' class="position-absolute top-0 end-0 mt-3 me-1">
+        <input type="hidden" name="drinkId" value="<?php echo $drinkId; ?>">
+        <button type="submit" class="btn-close"></button>
+    </form>
 
-                <!-- INCREASE button -->
-                <form 
-                    action="./../note/stockHandle/increaseStock.php" 
-                    method="post" 
-                    target="counterFrame_<?php echo $drinkId; ?>" 
-                    class="w-50">
-                    
-                    <input type="hidden" name="drinkId" value="<?php echo $drinkId; ?>">
-                    <input class='btn bg-light-success w-100 H-100' type="submit" value='+' name="increaseDrinkBtn">
-                </form>
+    <h3>
+        <!-- iframe counter -->
+        <iframe 
+            name="counterFrame_<?php echo $drinkId; ?>" 
+            src="./../note/stockHandle/outputAmount.php?drinkId=<?php echo $drinkId; ?>" 
+            style="border:1px solid #000; width:50px; height:50px; overflow:hidden;"
+            scrolling='no'>
+        </iframe>
+        x 
+        <?php echo $_SESSION['waiterNote'][$drinkId]['price'] ?>$
+    </h3>
 
-                <!-- DECREASE button -->
-                <form 
-                    action="./../note/stockHandle/decreaseStock.php" 
-                    method="post" 
-                    target="counterFrame_<?php echo $drinkId; ?>" 
-                    class="w-50">
+    <div class="input-group d-flex justify-content-center align-items-center mb-5">
 
-                    <input type="hidden" name="drinkId" value="<?php echo $drinkId; ?>">
-                    <input class='btn bg-light-danger w-100 H-100' type="submit" value='-' name="decreaseDrinkBtn">
-                </form>
+        <!-- INCREASE button: iframe will be changed to the parent -->
+        <form 
+            action="./../note/stockHandle/increaseStock.php"
+            method="post"
+            target="renderNoteFrame" 
+            class="w-50">
+            <input type="hidden" name="drinkId" value="<?php echo $drinkId; ?>">
+            <input class='btn bg-light-success w-100' type="submit" value='+' name="increaseDrinkBtn">
+        </form>
 
-            </div>
+        <!-- DECREASE button -->
+        <form 
+            action="./../note/stockHandle/decreaseStock.php" 
+            method="post" 
+            target="renderNoteFrame" 
+            class="w-50">
+            <input type="hidden" name="drinkId" value="<?php echo $drinkId; ?>">
+            <input class='btn bg-light-danger w-100' type="submit" value='-' name="decreaseDrinkBtn">
+        </form>
 
-            <!-- total price can go here later -->
-            <h4 class='p-2 rounded-3'>total: 112.9$</h4>
-        </div>
+    </div>
+
+    <h4 class='p-2 rounded-3'>total: 112.9$</h4>
+</div>
+
 
     </div>
 </div>
