@@ -82,7 +82,6 @@ include_once './../header.php'
 
 
  <!-- LIST DRINKS + ADD TO WAITER NOTE BY CLICK-->
-
 <?php
 include_once "./../drinks/viewDrinks.php";
 ?>

@@ -9,10 +9,10 @@
         <div class="container d-flex align-items-center justify-content-between">
             <!-- Logo on the left -->
             <a class="navbar-brand d-flex align-items-center" href="#">
-                <h1 class="d-flex align-items-center mb-0">
-                    <img src="./../uploads/icons/logo3.png" alt="" width="60px">
+                <h2 class="d-flex align-items-center mb-0">
+                    <img src="./../uploads/icons/logo3.png" alt="" width="80px">
                     affetria
-                </h1>
+                </h2>
             </a>
 
             <!-- Button on the right -->
