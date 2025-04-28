@@ -1,8 +1,8 @@
 <?php
 session_start();
-require_once '../connetionDB/config.php';
+require_once '../connect.php';
 
-if (!$conn) {
+if (!$connect) {
     die("Database connection failed: " . mysqli_connect_error());
 }
 
@@ -20,7 +20,20 @@ $offset = ($currentPage - 1) * $itemsPerPage;
 $dateFrom = isset($_GET['date_from']) && $_GET['date_from'] ? $_GET['date_from'] : null;
 $dateTo = isset($_GET['date_to']) && $_GET['date_to'] ? $_GET['date_to'] : null;
 
-$baseSql = "SELECT id, total_price, status, created_at FROM orders WHERE user_id = ?";
+// Sanitize the dates
+if ($dateFrom && !preg_match('/\d{4}-\d{2}-\d{2}/', $dateFrom)) {
+    $dateFrom = null; // Invalid date format
+    echo "Invalid date format for 'date_from'.<br>";
+}
+if ($dateTo && !preg_match('/\d{4}-\d{2}-\d{2}/', $dateTo)) {
+    $dateTo = null; // Invalid date format
+    echo "Invalid date format for 'date_to'.<br>";
+}
+
+echo "dateFrom: $dateFrom<br>";
+echo "dateTo: $dateTo<br>";
+
+$baseSql = "SELECT id, total, status, created_at FROM orders WHERE user_id = ?";
 $baseParams = [$userId];
 $baseTypes = "i";
 
@@ -36,6 +49,8 @@ if ($dateTo) {
     $baseTypes .= "s";
 }
 
+echo "Base SQL for orders: $baseSql<br>";
+
 $countSql = "SELECT COUNT(*) AS total_count FROM orders WHERE user_id = ?";
 $countParams = [$userId];
 $countTypes = "i";
@@ -46,13 +61,15 @@ if ($dateFrom) {
     $countTypes .= "s";
 }
 if ($dateTo) {
-     $dateToFormatted = date('Y-m-d H:i:s', strtotime($dateTo . ' 23:59:59'));
+    $dateToFormatted = date('Y-m-d H:i:s', strtotime($dateTo . ' 23:59:59'));
     $countSql .= " AND created_at <= ?";
     $countParams[] = $dateToFormatted;
     $countTypes .= "s";
 }
 
-$countStmt = mysqli_prepare($conn, $countSql);
+echo "Count SQL: $countSql<br>";
+
+$countStmt = mysqli_prepare($connect, $countSql);
 $totalOrders = 0;
 if ($countStmt) {
     mysqli_stmt_bind_param($countStmt, $countTypes, ...$countParams);
@@ -62,15 +79,17 @@ if ($countStmt) {
     $totalOrders = $countRow['total_count'];
     mysqli_stmt_close($countStmt);
 } else {
-    error_log("Error preparing count statement: " . mysqli_error($conn));
+    echo "Error preparing count statement: " . mysqli_error($connect) . "<br>";
 }
+
+echo "Total Orders: $totalOrders<br>";
 
 $totalPages = ceil($totalOrders / $itemsPerPage);
 
 if ($totalOrders == 0) {
-     $currentPage = 1;
-     $offset = 0;
-     $totalPages = 1;
+    $currentPage = 1;
+    $offset = 0;
+    $totalPages = 1;
 } elseif ($currentPage < 1) {
     $currentPage = 1;
     $offset = ($currentPage - 1) * $itemsPerPage;
@@ -78,6 +97,9 @@ if ($totalOrders == 0) {
     $currentPage = $totalPages;
     $offset = ($currentPage - 1) * $itemsPerPage;
 }
+
+echo "Current Page: $currentPage<br>";
+echo "Total Pages: $totalPages<br>";
 
 $orders = [];
 $totalAmountDisplayed = 0;
@@ -87,17 +109,21 @@ $sql .= " ORDER BY created_at DESC LIMIT ?, ?";
 $params = array_merge($baseParams, [$offset, $itemsPerPage]);
 $types = $baseTypes . "ii";
 
-$stmt = mysqli_prepare($conn, $sql);
-if ($stmt) {
-     mysqli_stmt_bind_param($stmt, $types, ...$params);
+echo "SQL for fetching orders: $sql<br>";
 
+$stmt = mysqli_prepare($connect, $sql);
+if ($stmt) {
+    mysqli_stmt_bind_param($stmt, $types, ...$params);
     mysqli_stmt_execute($stmt);
     $result = mysqli_stmt_get_result($stmt);
 
     while ($row = mysqli_fetch_assoc($result)) {
-        $orderItemsSql = "SELECT oi.quantity, oi.note, p.name AS product_name, p.price AS product_price, p.image AS image_p
-                          FROM order_items oi JOIN products p ON oi.product_id = p.id WHERE oi.order_id = ?";
-        $itemStmt = mysqli_prepare($conn, $orderItemsSql);
+        $orderItemsSql = "SELECT od.quantity, d.name AS product_name, d.price AS product_price, d.image_path AS image_p
+FROM order_drinks od 
+JOIN drinks d ON od.drink_id = d.id 
+WHERE od.order_id = ?";
+
+        $itemStmt = mysqli_prepare($connect, $orderItemsSql);
         $items = [];
         if ($itemStmt) {
             mysqli_stmt_bind_param($itemStmt, "i", $row['id']);
@@ -108,18 +134,18 @@ if ($stmt) {
             }
             mysqli_stmt_close($itemStmt);
         } else {
-            error_log("Error preparing item statement: " . mysqli_error($conn));
+            echo "Error preparing item statement: " . mysqli_error($connect) . "<br>";
         }
         $row['items'] = $items;
         $orders[] = $row;
-        $totalAmountDisplayed += $row['total_price'];
+        $totalAmountDisplayed += $row['total'];
     }
     mysqli_stmt_close($stmt);
 } else {
-    error_log("Error preparing order statement: " . mysqli_error($conn));
+    echo "Error preparing order statement: " . mysqli_error($connect) . "<br>";
 }
 
-mysqli_close($conn);
+mysqli_close($connect);
 
 function buildPaginationUrl($page, $dateFrom, $dateTo) {
     $queryParams = ['page' => $page];
@@ -131,8 +157,8 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
     }
     return '?' . http_build_query($queryParams);
 }
-
 ?>
+
 
 <!DOCTYPE html>
 <html lang="en">
@@ -408,7 +434,7 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
                                     </div>
                                     <div>
                                         <strong class="text-success">
-                                            <?php echo htmlspecialchars(number_format($order['total_price'], 2)); ?> EGP
+                                            <?php echo htmlspecialchars(number_format($order['total'], 2)); ?> EGP
                                         </strong>
                                     </div>
                                     <div class="action-column">
