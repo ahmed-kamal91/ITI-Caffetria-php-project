@@ -1,0 +1,4 @@
+waiterNote
+adminWaiterNote
+total_price : track how it changed
+create_order: track from which variable 'waiterNote'
