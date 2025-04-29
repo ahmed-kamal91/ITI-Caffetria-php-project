@@ -7,12 +7,12 @@
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/userMainPage.php' ? 'active' : ''; ?>" href="../pages/userMainPage.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === './../pages/userMainPage.php' ? 'active' : ''; ?>" href="./../pages/userMainPage.php">
                 <i class="fas fa-home"></i><span>Home</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'my_orders.php' ? 'active' : ''; ?>" href="my_orders.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../orders/my_orders.php' ? 'active' : ''; ?>" href="../orders/my_orders.php">
                 <i class="fas fa-box"></i><span>Drinks</span>
             </a>
         </li>

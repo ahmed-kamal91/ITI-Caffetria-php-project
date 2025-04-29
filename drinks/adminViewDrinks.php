@@ -49,7 +49,7 @@ if ($result) {
 
 mysqli_close($connect);
 
-$imageBasePath = '';
+$imageBasePath = '../';
 
 $start_index = ($page - 1) * $items_per_page;
 $end_index = min($start_index + $items_per_page, count($drinks));

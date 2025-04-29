@@ -74,7 +74,7 @@ if (isset($_POST['createOrderBtn'])) {
     header("Location: " . $_SERVER['PHP_SELF']);    // redirect to same page
     exit();
 }
-
+$userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'test';
 ?>
 
 <!-- NOTE BUTTON + BS + FONT-AUSOME -->
