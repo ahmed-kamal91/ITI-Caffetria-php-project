@@ -81,22 +81,22 @@ include 'header.php';
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(43, 65, 27, 0.08);
       margin: 2rem auto;
-      max-width: 800px;
-      overflow: hidden; /* Ensures the header corners are rounded */
+      max-width: 1000px !important;
+      overflow: hidden; 
     }
     
     .form-header {
-      background-color: var(--dark-color);
+      background-color:rgb(116, 119, 121);
       color: white;
       padding: 0.5rem;
-      margin-bottom: 0; /* Remove margin bottom */
+      margin-bottom: 0; 
     }
     
     .form-title {
       font-weight: 600;
       font-size: 1.8rem;
-      margin: 0; /* Remove margin */
-      color: white; /* Ensure text is white */
+      margin: 0; 
+      color: white; 
     }
     
     .form-body {

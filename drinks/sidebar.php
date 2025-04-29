@@ -42,7 +42,7 @@
 <style>
 .sidebar {
     width: 250px;
-    background-color: #f8f9fa;
+    background-color: rgb(116, 119, 121);
     border-right: 1px solid #dee2e6;
     padding: 20px 0;
     transition: all 0.3s;

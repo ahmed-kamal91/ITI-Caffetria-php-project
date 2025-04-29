@@ -15,18 +15,18 @@ if (isset($_GET['id']) && is_numeric($_GET['id'])) {
         $delete_result = mysqli_query($connect, $delete_query);
         
         if ($delete_result) {
-            header("Location: viewDrinks.php?page=$page&success=Drink deleted successfully");
+            header("Location: adminViewDrinks.php?page=$page&success=Drink deleted successfully");
             exit();
         } else {
-            header("Location: viewDrinks.php?page=$page&error=Error deleting drink: " . mysqli_error($connect));
+            header("Location: adminViewDrinks.php?page=$page&error=Error deleting drink: " . mysqli_error($connect));
             exit();
         }
     } else {
-        header("Location: viewDrinks.php");
+        header("Location: adminViewDrinks.php");
         exit();
     }
 } else {
-    header("Location: viewDrinks.php");
+    header("Location: adminViewDrinks.php");
     exit();
 }
 // header(location:);

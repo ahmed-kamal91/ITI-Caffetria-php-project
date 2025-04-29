@@ -15,7 +15,7 @@ $result = mysqli_query($connect, $query);
 $drink = mysqli_fetch_assoc($result);
 
 if (!$drink) {
-    header("Location: drinks.php?error=Drink not found");
+    header("Location: adminViewDrinks.php?error=Drink not found");
     exit();
 }
 
@@ -65,7 +65,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
                     WHERE id = $drink_id";
     
     if (mysqli_query($connect, $update_query)) {
-        header("Location:viewDrinks.php?success=Drink updated successfully");
+        header("Location:adminViewDrinks.php?success=Drink updated successfully");
         exit();
     } else {
         $error = "Error updating drink: " . mysqli_error($connect);
@@ -77,12 +77,16 @@ mysqli_close($connect);
 // Include the header
 include 'header.php';
 ?>
-
+<style>
+     .card-header{
+            background-color:rgb(116, 119, 121);
+        }
+</style>
 <div class="container-fluid">  <!-- Changed to container-fluid for full width -->
     <div class="row justify-content-center">
         <div class="col-lg-10">  <!-- Increased from col-lg-8 to col-lg-10 -->
             <div class="card">
-                <div class="card-header bg-dark text-white">
+                <div class="card-header  text-white">
                     <h4 class="mb-0">Edit Drink</h4>
                 </div>
                 <div class="card-body">
