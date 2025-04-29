@@ -1,4 +1,5 @@
 <?php
+include_once('../connect.php');
 
 if(!isset($_SESSION['latestOrder'])){
     $_SESSION['latestOrder'] = [];
