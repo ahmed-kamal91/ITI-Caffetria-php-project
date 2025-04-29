@@ -7,17 +7,17 @@
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/viewUserOrders.php' ? 'active' : ''; ?>" href="viewUserOrders.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/userMainPage.php' ? 'active' : ''; ?>" href="../pages/userMainPage.php">
                 <i class="fas fa-home"></i><span>Home</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'adminViewDrinks.php' ? 'active' : ''; ?>" href="adminViewDrinks.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'my_orders.php' ? 'active' : ''; ?>" href="my_orders.php">
                 <i class="fas fa-box"></i><span>Drinks</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/viewAllUsers.php' ? 'active' : ''; ?>" href="../user/viewAllUsers.php">
+        <!-- <li class="nav-item">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'users.php' ? 'active' : ''; ?>" href="users.php">
                 <i class="fas fa-users"></i><span>Users</span>
             </a>
         </li>
@@ -27,11 +27,11 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'adminChecks.php' ? 'active' : ''; ?>" href="adminChecks.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'checks.php' ? 'active' : ''; ?>" href="checks.php">
                 <i class="fas fa-file-invoice"></i><span>Checks</span>
             </a>
         </li>
-        <!-- <li class="nav-item">
+        <li class="nav-item">
             <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'admin.php' ? 'active' : ''; ?>" href="admin.php">
                 <i class="fas fa-cog"></i><span>Admin</span>
             </a>

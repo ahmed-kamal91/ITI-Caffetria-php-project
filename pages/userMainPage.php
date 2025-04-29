@@ -32,7 +32,9 @@ if (!isset($_SESSION['user_id'])) {
 // $_SESSION['user_name'] = "ahmed";         // name saved based on database
 // $_SESSION['user_role'] = "customer";    // role saved based on db
 // //--------------------------------------------------------------------
-// ?>
+// 
+include('../orders/header.php');
+?>
 
 <!-- redirect to the login in case the user id not assigned -->
  <?php
@@ -127,4 +129,5 @@ include_once "./../note/NoteModal.php";
 if (isset($_SESSION['order_created'])) {
     unset($_SESSION['order_created']);
 }
+include('../orders/footer.php');
 ?>

@@ -28,6 +28,7 @@ if(!isset($_SESSION['user_id'])){
     header("location: ./../user/login.php");
     exit();
 }
+include('../drinks/header.php');
 ?>
 
 
@@ -114,4 +115,6 @@ include_once "./../adminNote/NoteModal.php"; //<====HERE=====
 if (isset($_SESSION['order_created'])) {
     unset($_SESSION['order_created']);
 }
+
+include('../drinks/footer.php');
 ?>
