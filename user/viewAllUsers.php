@@ -20,7 +20,7 @@ $result = $conn->query($sql);
 if (!$result) {
     die("Query error: " . $conn->error);
 }
-include('../drinks/header.php');
+include('../headerside.php');
 ?>
 
 <!DOCTYPE html>
@@ -72,5 +72,5 @@ include('../drinks/header.php');
 </html>
 
 <?php $conn->close(); 
-include('../drinks/footer.php');
+include('../footer.php');
 ?>

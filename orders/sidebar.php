@@ -7,7 +7,7 @@
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === './../pages/userMainPage.php' ? 'active' : ''; ?>" href="./../pages/userMainPage.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/userMainPage.php' ? 'active' : ''; ?>" href="../pages/userMainPage.php">
                 <i class="fas fa-home"></i><span>Home</span>
             </a>
         </li>
@@ -17,21 +17,21 @@
             </a>
         </li>
         <!-- <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'users.php' ? 'active' : ''; ?>" href="users.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/viewAllUsers.php' ? 'active' : ''; ?>" href="../user/viewAllUsers.php">
                 <i class="fas fa-users"></i><span>Users</span>
             </a>
-        </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'orders.php' ? 'active' : ''; ?>" href="orders.php">
+        </li> -->
+        <!-- <li class="nav-item">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../orders/my_orders.php' ? 'active' : ''; ?>" href="../orders/my_orders.php">
                 <i class="fas fa-shopping-cart"></i><span>Manual Order</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'checks.php' ? 'active' : ''; ?>" href="checks.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminChecks.php' ? 'active' : ''; ?>" href="../drinks/adminChecks.php">
                 <i class="fas fa-file-invoice"></i><span>Checks</span>
             </a>
-        </li>
-        <li class="nav-item">
+        </li> -->
+        <!-- <li class="nav-item">
             <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'admin.php' ? 'active' : ''; ?>" href="admin.php">
                 <i class="fas fa-cog"></i><span>Admin</span>
             </a>

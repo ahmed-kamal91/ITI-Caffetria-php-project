@@ -52,7 +52,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['name'])) {
         mysqli_query($connect, $sql);
     }
 }
-include 'header.php';
+include './../headerside.php';
 ?>
 
 <!DOCTYPE html>
@@ -81,7 +81,7 @@ include 'header.php';
       border-radius: 12px;
       box-shadow: 0 4px 12px rgba(43, 65, 27, 0.08);
       margin: 2rem auto;
-      max-width: 1000px !important;
+      max-width: 12000px !important;
       overflow: hidden; 
     }
     
@@ -97,6 +97,7 @@ include 'header.php';
       font-size: 1.8rem;
       margin: 0; 
       color: white; 
+      
     }
     
     .form-body {
@@ -285,4 +286,4 @@ include 'header.php';
   </script>
 </body>
 </html>
-<?php include 'footer.php'; ?>
+<?php include ('./../footer.php'); ?>

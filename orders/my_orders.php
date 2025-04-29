@@ -7,7 +7,7 @@ if (!$connect) {
 }
 
 if (!isset($_SESSION['user_id'])) {
-    header("Location: login.php");
+    header("Location: ../user/login.php");
     exit();
 }
 
@@ -30,8 +30,8 @@ if ($dateTo && !preg_match('/\d{4}-\d{2}-\d{2}/', $dateTo)) {
     echo "Invalid date format for 'date_to'.<br>";
 }
 
-echo "dateFrom: $dateFrom<br>";
-echo "dateTo: $dateTo<br>";
+// echo "dateFrom: $dateFrom<br>";
+// echo "dateTo: $dateTo<br>";
 
 $baseSql = "SELECT id, total, status, created_at FROM orders WHERE user_id = ?";
 $baseParams = [$userId];
@@ -49,7 +49,7 @@ if ($dateTo) {
     $baseTypes .= "s";
 }
 
-echo "Base SQL for orders: $baseSql<br>";
+// echo "Base SQL for orders: $baseSql<br>";
 
 $countSql = "SELECT COUNT(*) AS total_count FROM orders WHERE user_id = ?";
 $countParams = [$userId];
@@ -67,7 +67,7 @@ if ($dateTo) {
     $countTypes .= "s";
 }
 
-echo "Count SQL: $countSql<br>";
+// echo "Count SQL: $countSql<br>";
 
 $countStmt = mysqli_prepare($connect, $countSql);
 $totalOrders = 0;
@@ -82,7 +82,7 @@ if ($countStmt) {
     echo "Error preparing count statement: " . mysqli_error($connect) . "<br>";
 }
 
-echo "Total Orders: $totalOrders<br>";
+// echo "Total Orders: $totalOrders<br>";
 
 $totalPages = ceil($totalOrders / $itemsPerPage);
 
@@ -98,8 +98,8 @@ if ($totalOrders == 0) {
     $offset = ($currentPage - 1) * $itemsPerPage;
 }
 
-echo "Current Page: $currentPage<br>";
-echo "Total Pages: $totalPages<br>";
+// echo "Current Page: $currentPage<br>";
+// echo "Total Pages: $totalPages<br>";
 
 $orders = [];
 $totalAmountDisplayed = 0;
@@ -109,7 +109,7 @@ $sql .= " ORDER BY created_at DESC LIMIT ?, ?";
 $params = array_merge($baseParams, [$offset, $itemsPerPage]);
 $types = $baseTypes . "ii";
 
-echo "SQL for fetching orders: $sql<br>";
+// echo "SQL for fetching orders: $sql<br>";
 
 $stmt = mysqli_prepare($connect, $sql);
 if ($stmt) {
@@ -157,6 +157,7 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
     }
     return '?' . http_build_query($queryParams);
 }
+include('header.php');
 ?>
 
 
@@ -180,6 +181,7 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
             box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
             margin-top: 30px;
             margin-bottom: 30px;
+            max-width: 1400px !important;
         }
         h1, h2 {
             color: #343a40;
@@ -196,6 +198,11 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
             margin-bottom: 30px;
             box-shadow: inset 0 1px 3px rgba(0,0,0,0.1);
         }
+        .accordion {
+            width: 100%;
+            max-width: 1400px !important; /* Increased from 1200px to 1400px */
+            margin: 0 auto;
+}
         .accordion-button {
             font-weight: 500;
             transition: background-color 0.3s ease;
@@ -233,14 +240,14 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
             padding: 0 10px;
             text-align: left;
         }
-         .order-summary > div:first-child {
-            flex: 0 0 180px;
+        .order-summary > div:first-child {
+            flex: 0 0 220px; /* Increased from 180px to 220px */
             padding-left: 0;
             font-size: 0.9rem;
             color: #6c757d;
         }
         .order-summary > div:nth-child(2) {
-             flex: 0 0 120px;
+             flex: 0 0 150px; /* Increased from 120px to 150px */
              text-align: center;
         }
          .order-summary > div:nth-child(3) {
@@ -248,11 +255,11 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
              text-align: right;
              font-size: 1.1rem;
          }
-        .order-summary > div:last-child {
-            flex: 0 0 80px;
+         .order-summary > div:last-child {
+            flex: 0 0 100px; /* Increased from 80px to 100px */
             text-align: right;
             padding-right: 0;
-        }
+}
         .order-summary .status-badge {
             min-width: 100px;
             text-align: center;
@@ -578,3 +585,6 @@ function buildPaginationUrl($page, $dateFrom, $dateTo) {
     </script>
 </body>
 </html>
+<?php
+include('footer.php');
+?>

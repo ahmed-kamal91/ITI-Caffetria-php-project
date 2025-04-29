@@ -1,5 +1,5 @@
 <?php
-include 'header.php';
+include '../headerside.php';
 ?>
 <!DOCTYPE html>
 <html lang="en">
@@ -23,7 +23,7 @@ include 'header.php';
             margin: 0 auto;
         }
         /* Responsive adjustments */
-        @media (max-width: 1500px) {
+        @media (max-width: 12000px) {
             .accordion {
                 width: 1200px;
             }
@@ -325,5 +325,5 @@ include 'header.php';
 <?php
 // Close database connection
 mysqli_close($connect);
-include 'footer.php';
+include '../footer.php';
 ?>

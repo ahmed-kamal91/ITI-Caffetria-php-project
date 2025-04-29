@@ -7,12 +7,12 @@
     </div>
     <ul class="nav flex-column">
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/viewUserOrders.php' ? 'active' : ''; ?>" href="viewUserOrders.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/adminMainPage.php' ? 'active' : ''; ?>" href="../pages/adminMainPage.php">
                 <i class="fas fa-home"></i><span>Home</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'adminViewDrinks.php' ? 'active' : ''; ?>" href="adminViewDrinks.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminViewDrinks.php' ? 'active' : ''; ?>" href="../drinks/adminViewDrinks.php">
                 <i class="fas fa-box"></i><span>Drinks</span>
             </a>
         </li>
@@ -22,12 +22,12 @@
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'orders.php' ? 'active' : ''; ?>" href="orders.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../orders/my_orders.php' ? 'active' : ''; ?>" href="../orders/my_orders.php">
                 <i class="fas fa-shopping-cart"></i><span>Manual Order</span>
             </a>
         </li>
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'adminChecks.php' ? 'active' : ''; ?>" href="adminChecks.php">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminChecks.php' ? 'active' : ''; ?>" href="../drinks/adminChecks.php">
                 <i class="fas fa-file-invoice"></i><span>Checks</span>
             </a>
         </li>

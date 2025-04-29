@@ -1,5 +1,5 @@
 <?php
-include 'header.php';
+include '../headerside.php';
 include_once('../connect.php');
 
 $items_per_page = 12; 
@@ -330,5 +330,5 @@ $current_page_drinks = array_slice($drinks, $start_index, $items_per_page);
 </body>
 </html>
 <?php
-include 'footer.php';
+include '../footer.php';
 ?>
