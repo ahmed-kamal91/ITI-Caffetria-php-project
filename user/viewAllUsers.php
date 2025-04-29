@@ -1,8 +1,12 @@
 <?php
-$servername = "localhost";
-$username = "root";
-$password = "1234";
-$dbname = "PHP_Project"; // change this
+// $servername = "localhost";
+// $username = "root";
+// $password = "1234";
+// $dbname = "PHP_Project"; // change this
+$servername = "127.0.0.1";
+$username = 'root';     
+$password = "aya_A_sultan_1192";         
+$dbname = 'PHP_Project';
 
 $conn = new mysqli($servername, $username, $password, $dbname);
 
@@ -20,6 +24,7 @@ $result = $conn->query($sql);
 if (!$result) {
     die("Query error: " . $conn->error);
 }
+include('header.php');
 ?>
 
 <!DOCTYPE html>
@@ -65,4 +70,6 @@ if (!$result) {
 </body>
 </html>
 
-<?php $conn->close(); ?>
+<?php $conn->close(); 
+include('footer.php');
+?>

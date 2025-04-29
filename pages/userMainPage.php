@@ -20,14 +20,19 @@
 <?php
 
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location:../user/login.php");
+    exit();
+}
 //   unset($_SESSION['waiterNote']); //for development
 
 // LOGIN [SIMULATION]------------------------------------------
-$_SESSION['user_id'] = "4";           // id from database [read]
-//----------------------------
-$_SESSION['user_name'] = "ali";         // name saved based on database
-$_SESSION['user_role'] = "customer";    // role saved based on db
+// $_SESSION['user_id'] = "4";           // id from database [read]
+// //----------------------------
+// $_SESSION['user_name'] = "ali";         // name saved based on database
+// $_SESSION['user_role'] = "customer";    // role saved based on db
 //--------------------------------------------------------------------
+$userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'test';
 ?>
 
 

@@ -4,12 +4,18 @@ $success = "";
 $error = "";
 
 // Database Connection
-$servername = "localhost";
-$username = "root";
-$password_db = "1234";
-$database = "PHP_Project";
+// $servername = "localhost";
+// $username = "root";
+// $password_db = "1234";
+// $database = "PHP_Project";
+
+$servername = "127.0.0.1";
+$username = 'root';     
+$password_db = "aya_A_sultan_1192";         
+$database = 'PHP_Project';
 
 $conn = new mysqli($servername, $username, $password_db, $database);
+
 
 // Check connection
 if ($conn->connect_error) {
