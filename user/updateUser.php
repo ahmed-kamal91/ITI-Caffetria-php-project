@@ -1,7 +1,7 @@
 <?php
-$servername = "localhost";
+$servername = "127.0.0.1";
 $username = "root";
-$password = "1234";
+$password = "aya_A_sultan_1192";
 $dbname = "PHP_Project"; // change this
 
 $conn = new mysqli($servername, $username, $password, $dbname);
@@ -74,11 +74,16 @@ $conn->close();
     <title>Update User</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+      .card-header{
+        background:rgb(116, 119, 121);
+    }
+</style>
 <body class="bg-light">
     <div class="container mt-5">
         <?php echo $message; ?>
         <div class="card shadow-sm">
-            <div class="card-header bg-warning text-white">
+            <div class="card-header  text-white">
                 <h4 class="mb-0">Update User</h4>
             </div>
             <div class="card-body">
