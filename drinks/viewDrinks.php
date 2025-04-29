@@ -85,12 +85,12 @@ $result = mysqli_query($connect, $sql);
         }
     </script>
 </head>
-<body>
+<body class='bg-light'>
 
     <!-- Toast: [path related to : redToast.php] -->
     <?php if (isset($_GET['out_of_stock'])): include './../drinks/redToast.php'; endif; ?>
 
-    <div class="container border text-center">
+    <div class="container border text-center bg-white">
 
         <!-- Latest order section -->
         <?php 

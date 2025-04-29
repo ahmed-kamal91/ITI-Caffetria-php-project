@@ -22,9 +22,9 @@ session_start();
 //   unset($_SESSION['waiterNote']); //for development
 
 // LOGIN [SIMULATION]------------------------------------------
-$_SESSION['user_id'] = "4";           // id from database [read]
+$_SESSION['user_id'] = "1";           // id from database [read]
 //----------------------------
-$_SESSION['user_name'] = "ali";         // name saved based on database
+$_SESSION['user_name'] = "ahmed";         // name saved based on database
 $_SESSION['user_role'] = "customer";    // role saved based on db
 //--------------------------------------------------------------------
 ?>
