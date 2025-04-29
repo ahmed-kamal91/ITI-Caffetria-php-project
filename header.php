@@ -17,8 +17,12 @@
 
             <!-- Button on the right -->
             <button class='btn btn-primary' data-bs-toggle='modal' data-bs-target='#waiterNote'>click</button>
+            <div class="user-info d-flex justify-content-end align-items-center">
+                <span class="me-2"><?php echo $userName; ?></span><i class="fa-solid fa-user"></i>
+            </div>
         </div>
     </nav>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
 

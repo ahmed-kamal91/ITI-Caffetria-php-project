@@ -20,6 +20,10 @@
 <?php
 
 session_start();
+if (!isset($_SESSION['user_id'])) {
+    header("Location:../user/login.php");
+    exit();
+}
 //   unset($_SESSION['waiterNote']); //for development
 
 // LOGIN [SIMULATION]------------------------------------------
@@ -36,6 +40,8 @@ if(!isset($_SESSION['user_id'])){
     header("location: ./../user/login.php");
     exit();
 }
+
+$userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'test';
 ?>
 
 
