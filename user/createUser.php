@@ -4,17 +4,18 @@ $success = "";
 $error = "";
 
 // Database Connection
-$servername = "localhost";
-$username = "root";
-$password_db = "1234";
-$database = "PHP_Project";
+// $servername = "localhost";
+// $username = "root";
+// $password_db = "1234";
+// $database = "PHP_Project";
 
-$conn = new mysqli($servername, $username, $password_db, $database);
+// $conn = new mysqli($servername, $username, $password_db, $database);
+include_once('../connect.php');
 
 // Check connection
-if ($conn->connect_error) {
-    die("Connection failed: " . $conn->connect_error);
-}
+// if ($conn->connect_error) {
+//     die("Connection failed: " . $conn->connect_error);
+// }
 
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $name = $_POST['name'] ?? '';
@@ -68,7 +69,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 
             // Prepare Insert
             $sql = "INSERT INTO users (name, email, password, image_path, role) VALUES (?, ?, ?, ?, ?)";
-            $stmt = $conn->prepare($sql);
+            $stmt = $connect->prepare($sql);
 
             if (!$stmt) {
                 die("Prepare failed: " . $conn->error);
@@ -92,7 +93,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     }
 }
 
-$conn->close();
+$connect->close();
 ?>
 
 <!DOCTYPE html>
