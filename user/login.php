@@ -2,8 +2,18 @@
 session_start();
 require_once '../connect.php';
 
+unset($_SESSION['user_id']);
+unset($_SESSION['user_name']);
+unset($_SESSION['user_role']); 
+
+
 if (isset($_SESSION['user_id'])) {
-    header("Location: user_home.php");
+
+    if ($user['role'] == 'admin') {
+        header("Location: ./../pages/adminMainPage.php");
+    } else {
+        header("Location: ./../pages/userMainPage.php");
+    }
     exit();
 }
 
@@ -25,9 +35,9 @@ if ($_SERVER['REQUEST_METHOD'] == 'POST') {
         $_SESSION['user_role'] = $user['role'];
         
         if ($user['role'] == 'admin') {
-            header("Location: admin_dashboard.php");
+            header("Location: ./../pages/userMainPage.php");
         } else {
-            header("Location: user_home.php");
+            header("Location: ./../pages/userMainPage.php");
         }
         exit();
     } else {

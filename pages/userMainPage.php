@@ -23,12 +23,21 @@ session_start();
 //   unset($_SESSION['waiterNote']); //for development
 
 // LOGIN [SIMULATION]------------------------------------------
-$_SESSION['user_id'] = "1";           // id from database [read]
-//----------------------------
-$_SESSION['user_name'] = "ahmed";         // name saved based on database
-$_SESSION['user_role'] = "customer";    // role saved based on db
-//--------------------------------------------------------------------
+// $_SESSION['user_id'] = "1";           // id from database [read]
+// //----------------------------
+// $_SESSION['user_name'] = "ahmed";         // name saved based on database
+// $_SESSION['user_role'] = "customer";    // role saved based on db
+// //--------------------------------------------------------------------
+// ?>
+
+<!-- redirect to the login in case the user id not assigned -->
+ <?php
+if(!isset($_SESSION['user_id'])){
+    header("location: ./../user/login.php");
+    exit();
+}
 ?>
+
 
 
 
