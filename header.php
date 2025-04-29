@@ -7,7 +7,9 @@
     <!-- Navbar -->
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
         <div class="container d-flex align-items-center justify-content-between">
-            <!-- Logo on the left -->
+
+        
+            <!-- logo on the left -->
             <a class="navbar-brand d-flex align-items-center" href="#">
                 <h2 class="d-flex align-items-center mb-0">
                     <img src="./../uploads/icons/logo3.png" alt="" width="80px">
@@ -20,6 +22,7 @@
             <div class="user-info d-flex justify-content-end align-items-center">
                 <span class="me-2"><?php echo $userName; ?></span><i class="fa-solid fa-user"></i>
             </div>
+
         </div>
     </nav>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>

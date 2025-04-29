@@ -4,8 +4,11 @@ include_once './../connect.php';
 // Handle chosen user
 if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choseUser'])) {
     $_SESSION['user_id_a'] = (int)$_POST['choseUser'];
-    header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
+    
+    ///////////////////ERROR////////////////////////////////////////
+    // header("Location: " . $_SERVER['PHP_SELF']);
+    // exit;
+    ////////////////////////////////////////////////////////////////
 }
 
 // PAGINATION

@@ -5,8 +5,17 @@ include_once "./../connect.php";
 
 // Check if necessary session variables are set
 if (!isset($_SESSION['user_id_a']) || !isset($_SESSION['admin_total_price']) || !isset($_SESSION['adminWaiterNote'])) {
-    die("Missing session data.");
+    die("Missing session data.<br>");
 }
+
+////////INVESTIGATION////////////
+if(!isset($_SESSION['user_id_a'])){echo 'user id a missing';}
+if(!isset($_SESSION['admin_total_price'])){echo 'total_price missing';}
+if(!isset($_SESSION['adminWaiterNote'])){echo 'adminWaiterNote missing';}
+
+////////////////////////////////
+
+
 
 // Escape values properly
 $userId = (int) $_SESSION['user_id_a'];
