@@ -64,7 +64,7 @@
     font-size: 1.2rem;
 }
 .sidebar .nav-link {
-    color: #495057;
+    color:rgb(255, 255, 255);
     font-weight: 500;
     padding: 10px 20px;
     border-radius: 0;
