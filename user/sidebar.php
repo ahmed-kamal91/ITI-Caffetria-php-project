@@ -42,7 +42,7 @@
 <style>
 .sidebar {
     width: 250px;
-    background-color: #f8f9fa;
+    background-color: rgb(116, 119, 121);
     border-right: 1px solid #dee2e6;
     padding: 20px 0;
     transition: all 0.3s;
@@ -64,7 +64,7 @@
     font-size: 1.2rem;
 }
 .sidebar .nav-link {
-    color: #495057;
+    color:rgb(255, 255, 255);
     font-weight: 500;
     padding: 10px 20px;
     border-radius: 0;

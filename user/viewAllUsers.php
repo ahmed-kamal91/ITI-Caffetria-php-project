@@ -24,7 +24,7 @@ $result = $conn->query($sql);
 if (!$result) {
     die("Query error: " . $conn->error);
 }
-include('header.php');
+include('../drinks/header.php');
 ?>
 
 <!DOCTYPE html>
@@ -34,11 +34,16 @@ include('header.php');
     <title>All Users</title>
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/css/bootstrap.min.css" rel="stylesheet">
 </head>
+<style>
+    .card-header{
+        background:rgb(116, 119, 121);
+    }
+</style>
 <body class="bg-light">
 
 <div class="container mt-5">
     <div class="card shadow-sm">
-        <div class="card-header bg-primary text-white">
+        <div class="card-header  text-white">
             <h4 class="mb-0">All Users</h4>
         </div>
         <div class="card-body">
@@ -71,5 +76,5 @@ include('header.php');
 </html>
 
 <?php $conn->close(); 
-include('footer.php');
+include('../drinks/footer.php');
 ?>
