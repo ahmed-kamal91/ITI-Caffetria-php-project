@@ -35,9 +35,6 @@ foreach ($_SESSION['adminWaiterNote'] as $productId => $productData) {
     mysqli_query($connect, $drinkSql);
 }
 
-// Clear the session if needed (optional)
-// unset($_SESSION['adminWaiterNote']); 
-
 // Feedback
 echo "Order created successfully. Order ID: " . $orderId;
 ?>

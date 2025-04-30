@@ -1,16 +1,11 @@
-<!-- add side bar -->
- <?php include_once '../sidebar.php' ?>
-
-
-
 <?php
 include_once '../connect.php';
-include_once './H_viewAllOrder/getUserInfo.php';  
-include_once './H_viewAllOrder/getDrinks.php';   
+include_once './H_viewMyOrder/getUserInfo.php';  
+include_once './H_viewMyOrder/getDrinks.php';   
 
 
 // TITLE
-echo "<h1 class='container w-100 '> <i class='fa-solid fa-ticket text-primary'></i> ALL Orders</h1>";
+echo "<h1 class='container w-100 '> <i class='fa-solid fa-ticket text-primary'></i> My Order</h1>";
 
 // init pagination
 $limit =  5; 
@@ -20,7 +15,7 @@ $offset = ($page - 1) * $limit;
 
 /* filter form
 ----------------------------------------*/
-include './H_viewAllOrder/filterByDate.php';
+include './H_viewMyOrder/filterByDate.php';
 
 // prepare filter
 $filterClause = '';
@@ -64,11 +59,11 @@ while ($orders = mysqli_fetch_assoc($ordersResult)) {
     $drinks = getDrinks($orders['id'], $connect);  // Fetch the drinks for this order
     
     // Include accordion item with user info and drinks
-    include './H_viewAllOrder/accordionOrder.php';
+    include './H_viewMyOrder/accordionOrder.php';
 }
 echo "</div></div>";
 
 /* pagination view
 ----------------------------------------*/
-include './H_viewAllOrder/pagination.php';
+include './H_viewMyOrder/pagination.php';
 ?>

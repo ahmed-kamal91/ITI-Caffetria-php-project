@@ -1,47 +1,58 @@
-<?php
-// sidebar.php
-?>
+
 <div class="sidebar" id="sidebar">
-    <div class="toggle-btn" id="toggleBtn">
-        <i class="fas fa-chevron-left"></i>
-    </div>
+
     <ul class="nav flex-column">
+
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../pages/adminMainPage.php' ? 'active' : ''; ?>" href="../pages/adminMainPage.php">
-                <i class="fas fa-home"></i><span>Home</span>
+            <a class="nav-link" href="../pages/adminMainPage.php">
+                <i class="fas fa-home"></i>
+                <span>Home</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminViewDrinks.php' ? 'active' : ''; ?>" href="../drinks/adminViewDrinks.php">
-                <i class="fas fa-box"></i><span>Drinks</span>
+            <a class="nav-link" href="../drinks/adminViewDrinks.php">
+                <i class="fas fa-box"></i>
+                <span>Drinks</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/viewAllUsers.php' ? 'active' : ''; ?>" href="../user/viewAllUsers.php">
-                <i class="fas fa-users"></i><span>Users</span>
+            <a class="nav-link" href="../user/viewAllUsers.php">
+                <i class="fas fa-users"></i>
+                <span>Users</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../orders/my_orders.php' ? 'active' : ''; ?>" href="../orders/my_orders.php">
-                <i class="fas fa-shopping-cart"></i><span>Manual Order</span>
+            <a class="nav-link" href="../orders/viewAllOrders.php">
+                <i class="fas fa-shopping-cart"></i>
+                <span>Manual Order</span>
             </a>
         </li>
+
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminChecks.php' ? 'active' : ''; ?>" href="../drinks/adminChecks.php">
-                <i class="fas fa-file-invoice"></i><span>Checks</span>
+            <a class="nav-link" href="../drinks/adminChecks.php">
+                <i class="fas fa-file-invoice"></i>
+                <span>Checks</span>
             </a>
         </li>
-    
+
+
         <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminCreateDrink.php' ? 'active' : ''; ?>" href="../drinks/adminCreateDrink.php">
-            <i class="fas fa-mug-hot"></i> <i class="fas fa-plus"></i><span>Admin</span>
+            <a class="nav-link" href="../user/logout.php">
+                <i class="fas fa-sign-out-alt"></i>
+                <span>logout</span>
             </a>
         </li>
-        <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/logout.php' ? 'active' : ''; ?>" href="../user/logout.php">
-            <i class="fas fa-sign-out-alt"></i><span>logout</span>
+
+
+        <li class='nav-item'>
+            <a class="nav-link" href="../drinks/adminCreateDrink.php">
+                add zeft
             </a>
         </li>
+
     </ul>
 </div>
 
@@ -107,38 +118,3 @@
     background-color: #e9ecef;
 }
 </style>
-
-<script>
-document.addEventListener('DOMContentLoaded', function() {
-    const sidebar = document.getElementById('sidebar');
-    const toggleBtn = document.getElementById('toggleBtn');
-    
-    // Toggle sidebar functionality
-    toggleBtn.addEventListener('click', function() {
-        sidebar.classList.toggle('collapsed');
-        
-        // Change the icon based on state
-        const icon = this.querySelector('i');
-        if (sidebar.classList.contains('collapsed')) {
-            icon.classList.remove('fa-chevron-left');
-            icon.classList.add('fa-chevron-right');
-        } else {
-            icon.classList.remove('fa-chevron-right');
-            icon.classList.add('fa-chevron-left');
-        }
-        
-        // Store the state in localStorage
-        const isCollapsed = sidebar.classList.contains('collapsed');
-        localStorage.setItem('sidebarCollapsed', isCollapsed);
-    });
-    
-    // Check for saved state on page load
-    const savedState = localStorage.getItem('sidebarCollapsed');
-    if (savedState === 'true') {
-        sidebar.classList.add('collapsed');
-        const icon = toggleBtn.querySelector('i');
-        icon.classList.remove('fa-chevron-left');
-        icon.classList.add('fa-chevron-right');
-    }
-});
-</script>

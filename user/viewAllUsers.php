@@ -1,10 +1,9 @@
 <?php
-$servername = "127.0.0.1";
-$username = "root";
-$password = "aya_A_sultan_1192";
-$dbname = "PHP_Project"; // change this
 
-$conn = new mysqli($servername, $username, $password, $dbname);
+// [SENU]--------------------
+include_once '../connect.php';
+$conn = $connect;
+//---------------------------
 
 // Check connection
 if ($conn->connect_error) {

@@ -32,4 +32,6 @@ $_SESSION['latestOrder'] = array_slice($_SESSION['waiterNote'], 0, 4, true);
 
 // feedback 
 echo "Order created successfully. Order ID: " . $orderId;
+
+
 ?>

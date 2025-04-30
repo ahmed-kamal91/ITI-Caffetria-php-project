@@ -29,8 +29,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST' && isset($_POST['choseUser'])) {
         unset($_SESSION['user_role_a']);
     }
 
-    // header("Location: " . $_SERVER['PHP_SELF']);
-    exit;
+    // header("");
+    // exit;
 }
 
 // If a user is already selected, retrieve their details from session
@@ -88,16 +88,6 @@ $userResult = mysqli_query($connect, $userSql);
 <div class="container border text-center">
     <h2>Admin Choose User</h2>
 
-    <!-- Display selected user details -->
-    <!-- <?php if ($selectedUserId !== null): ?>
-        <p class="mb-3">
-            Selected User: 
-            <strong><?php echo htmlspecialchars($selectedUserName); ?></strong> 
-            (ID: <?php echo $selectedUserId; ?>, Role: <?php echo htmlspecialchars($selectedUserRole); ?>)
-            <a href="?clear_user=1" class="btn btn-sm btn-secondary ms-2">Clear User</a>
-        </p>
-    <?php endif; ?> -->
-
     <!-- Handle clear user -->
     <?php
     if (isset($_GET['clear_user'])) {
@@ -112,14 +102,18 @@ $userResult = mysqli_query($connect, $userSql);
     <!-- User Dropdown -->
     <form action="" method="POST" class="mb-4">
         <div class="d-flex justify-content-center align-items-center gap-2 flex-wrap">
-            <select name="choseUser" class="form-select w-auto" required>   
-                <option value="">Choose User</option>                         
+            <select name="choseUser" class="form-select w-auto" required> 
+                <option value="">Choose User</option>  
+                
+                <!-- the menu -->
                 <?php while($user = mysqli_fetch_assoc($userResult)): ?>
                     <option value="<?php echo $user['id']; ?>" <?php echo isset($_SESSION['user_id_a']) && $_SESSION['user_id_a'] == $user['id'] ? 'selected' : ''; ?>>
-                        <?php echo $user['id'] . ':' . htmlspecialchars($user['name']) . ':' . htmlspecialchars($user['email']); ?>
+                        <?php echo ':' . $user['name'] . ':' . $user['email']; ?>
                     </option>
                 <?php endwhile; ?>
+
             </select>
+            <!-- button to add the id in the session as user id  -->
             <button type="submit" class="btn btn-success">Select User</button>
         </div>
     </form>
@@ -131,7 +125,7 @@ $userResult = mysqli_query($connect, $userSql);
             name="search" 
             class="form-control w-50" 
             placeholder="Search drinks..." 
-            value="<?php echo isset($_GET['search']) ? htmlspecialchars($_GET['search']) : ''; ?>"
+            value="<?php echo isset($_GET['search']) ? $_GET['search'] : ''; ?>"
         >
         <button type="submit" class="btn btn-primary">
             <i class="fas fa-search"></i> Search
@@ -148,9 +142,9 @@ $userResult = mysqli_query($connect, $userSql);
                     <div class="card-wrapper">
                         <form action="./../adminNote/addToNote.php" method="post" class="w-100">
                             <input type="hidden" name="drink_id" value="<?php echo $drink['id']; ?>">
-                            <input type="hidden" name="drink_name" value="<?php echo htmlspecialchars($drink['name']); ?>">
+                            <input type="hidden" name="drink_name" value="<?php echo $drink['name']; ?>">
                             <input type="hidden" name="drink_price" value="<?php echo $drink['price']; ?>">
-                            <input type="hidden" name="drink_image" value="<?php echo htmlspecialchars($drink['image_path']); ?>">
+                            <input type="hidden" name="drink_image" value="<?php echo $drink['image_path']; ?>">
                             <input type="hidden" name="drink_available" value="<?php echo $drink['available']; ?>">
                             <button type="submit" name="submitDrink" class="btn p-0 w-100 border-0 bg-transparent" aria-label="Add <?php echo htmlspecialchars($drink['name']); ?> to note">
                                 <?php include "./../drinks/drinkCard.php"; ?>

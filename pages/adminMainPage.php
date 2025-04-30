@@ -21,15 +21,17 @@
 <?php
 session_start();
 //   unset($_SESSION['waiterNote']); //for development
-
-
 // redirect to login in case not logged in
 if(!isset($_SESSION['user_id'])){
     header("location: ../user/login.php");
     exit();
 }
-include('../headerside.php');
 ?>
+
+<!-- ADDING HEADER SIDE -->
+ <?php
+ include('../sidebar.php');
+ ?>
 
 
 
@@ -71,21 +73,23 @@ if (isset($_POST['createOrderBtn'])) {
     include './../orders/adminCreateOrder.php';
     
     $_SESSION['order_created'] = true;              // set a flag
-    // header("Location: " . $_SERVER['PHP_SELF']);    // redirect to same page
+    header("Location: " . $_SERVER['PHP_SELF']);    // redirect to same page
     exit();
 }
 $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'test';
 ?>
 
 <!-- NOTE BUTTON + BS + FONT-AUSOME -->
+ <!-- ////////////////////////////////////////////////// -->
+    <!-- Navbar -->
 <?php
-include_once './../header.php'
+include '../header.php'
 ?>
+ <!-- ////////////////////////////////////////////////// -->
 
 
 
  <!-- LIST DRINKS + ADD TO WAITER NOTE BY CLICK-->
-
 <?php
 include_once "./../drinks/adminViewUserDrinks.php";
 ?>
