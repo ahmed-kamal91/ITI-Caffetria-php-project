@@ -16,11 +16,11 @@
                 <i class="fas fa-box"></i><span>Drinks</span>
             </a>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/viewAllUsers.php' ? 'active' : ''; ?>" href="../user/viewAllUsers.php">
-                <i class="fas fa-users"></i><span>Users</span>
+        <li class="nav-item">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/logout.php' ? 'active' : ''; ?>" href="../user/logout.php">
+            <i class="fas fa-sign-out-alt"></i><span>logout</span>
             </a>
-        </li> -->
+        </li>
         <!-- <li class="nav-item">
             <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../orders/my_orders.php' ? 'active' : ''; ?>" href="../orders/my_orders.php">
                 <i class="fas fa-shopping-cart"></i><span>Manual Order</span>

@@ -297,7 +297,7 @@ include '../headerside.php';
                                     // Drink image (right side)
                                     echo '<div class="drink-image-container">';
                                     if (!empty($drink['image_path'])) {
-                                        echo '<img src="' . htmlspecialchars($drink['image_path']) . '" alt="' . htmlspecialchars($drink['name']) . '" class="drink-image">';
+                                        echo '<img src="../' . htmlspecialchars($drink['image_path']) . '" alt="' . htmlspecialchars($drink['name']) . '" class="drink-image">';
                                     } else {
                                         echo '<p>No image available.</p>';
                                     }

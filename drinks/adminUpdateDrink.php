@@ -75,7 +75,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 mysqli_close($connect);
 
 // Include the header
-include 'header.php';
+include '../headerside.php';
 ?>
 <style>
      .card-header{
@@ -152,5 +152,5 @@ include 'header.php';
 
 <?php
 // Include the footer
-include 'footer.php';
+include '../footer.php';
 ?>

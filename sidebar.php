@@ -31,11 +31,17 @@
                 <i class="fas fa-file-invoice"></i><span>Checks</span>
             </a>
         </li>
-        <!-- <li class="nav-item">
-            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === 'admin.php' ? 'active' : ''; ?>" href="admin.php">
-                <i class="fas fa-cog"></i><span>Admin</span>
+    
+        <li class="nav-item">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../drinks/adminCreateDrink.php' ? 'active' : ''; ?>" href="../drinks/adminCreateDrink.php">
+            <i class="fas fa-mug-hot"></i> <i class="fas fa-plus"></i><span>Admin</span>
             </a>
-        </li> -->
+        </li>
+        <li class="nav-item">
+            <a class="nav-link <?php echo basename($_SERVER['PHP_SELF']) === '../user/logout.php' ? 'active' : ''; ?>" href="../user/logout.php">
+            <i class="fas fa-sign-out-alt"></i><span>logout</span>
+            </a>
+        </li>
     </ul>
 </div>
 

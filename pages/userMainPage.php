@@ -86,7 +86,7 @@ if (isset($_POST['createOrderBtn'])) {
     include './../orders/createOrder.php';
     
     $_SESSION['order_created'] = true; // set a flag
-    header("Location: " . $_SERVER['PHP_SELF']); // redirect to same page
+    // header("Location: " . $_SERVER['PHP_SELF']); // redirect to same page
     exit();
 }
 

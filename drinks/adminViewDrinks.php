@@ -49,7 +49,7 @@ if ($result) {
 
 mysqli_close($connect);
 
-$imageBasePath = '../';
+$imageBasePath = '';
 
 $start_index = ($page - 1) * $items_per_page;
 $end_index = min($start_index + $items_per_page, count($drinks));
@@ -118,14 +118,34 @@ $current_page_drinks = array_slice($drinks, $start_index, $items_per_page);
         .pagination {
             margin-top: 20px;
             justify-content: center;
+            background-color: #f8f9fa;
+            border-radius: 20px;
+            padding: 5px 10px;
+            display: inline-flex;
+            align-items: center;
+        }
+        .page-item {
+            margin: 0 2px;
         }
         .page-item.active .page-link {
-            background-color: #e9ecef;
-            border-color: #dee2e6;
-            color: #495057;
+            background-color: #dc3545;
+            border-color: #dc3545;
+            color: white;
         }
         .page-link {
             color: #495057;
+            border: none;
+            padding: 5px 10px;
+            border-radius: 15px;
+            transition: background-color 0.2s;
+        }
+        .page-link:hover {
+            background-color: #e9ecef;
+        }
+        .page-item.disabled .page-link {
+            color: #6c757d;
+            background-color: transparent;
+            pointer-events: none;
         }
         .row {
             display: flex;
@@ -220,12 +240,12 @@ $current_page_drinks = array_slice($drinks, $start_index, $items_per_page);
                         <ul class="pagination">
                             <li class="page-item <?php echo $page <= 1 ? 'disabled' : ''; ?>">
                                 <a class="page-link" href="?page=1<?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>" aria-label="First">
-                                    <span aria-hidden="true">««</span>
+                                    <span aria-hidden="true">&laquo;&laquo;</span>
                                 </a>
                             </li>
                             <li class="page-item <?php echo $page <= 1 ? 'disabled' : ''; ?>">
                                 <a class="page-link" href="?page=<?php echo $page - 1; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>" aria-label="Previous">
-                                    <span aria-hidden="true">«</span>
+                                    <span aria-hidden="true">&laquo;</span>
                                 </a>
                             </li>
                             <?php
@@ -233,32 +253,26 @@ $current_page_drinks = array_slice($drinks, $start_index, $items_per_page);
                             $start = max(1, $page - $range);
                             $end = min($total_pages, $page + $range);
 
-                            if ($start > 1): ?>
-                                <li class="page-item">
-                                    <span class="page-link">...</span>
-                                </li>
-                            <?php endif; ?>
-
-                            <?php for ($i = $start; $i <= $end; $i++): ?>
+                            for ($i = $start; $i <= $end; $i++): ?>
                                 <li class="page-item <?php echo $page == $i ? 'active' : ''; ?>">
                                     <a class="page-link" href="?page=<?php echo $i; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>"><?php echo $i; ?></a>
                                 </li>
                             <?php endfor; ?>
 
                             <?php if ($end < $total_pages): ?>
-                                <li class="page-item">
+                                <li class="page-item disabled">
                                     <span class="page-link">...</span>
                                 </li>
                             <?php endif; ?>
 
                             <li class="page-item <?php echo $page >= $total_pages ? 'disabled' : ''; ?>">
                                 <a class="page-link" href="?page=<?php echo $page + 1; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>" aria-label="Next">
-                                    <span aria-hidden="true">»</span>
+                                    <span aria-hidden="true">&raquo;</span>
                                 </a>
                             </li>
                             <li class="page-item <?php echo $page >= $total_pages ? 'disabled' : ''; ?>">
                                 <a class="page-link" href="?page=<?php echo $total_pages; ?><?php echo !empty($search) ? '&search=' . urlencode($search) : ''; ?>" aria-label="Last">
-                                    <span aria-hidden="true">»»</span>
+                                    <span aria-hidden="true">&raquo;&raquo;</span>
                                 </a>
                             </li>
                         </ul>

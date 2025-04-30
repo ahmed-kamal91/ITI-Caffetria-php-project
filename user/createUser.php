@@ -86,6 +86,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute()) {
                 $success = "User '$name' has been registered successfully!";
                 $_POST = array(); // Clear form
+                header("Location: login.php");
             } else {
                 if ($conn->errno == 1062) {
                     $error = "This email is already registered.";
@@ -226,3 +227,6 @@ $connect->close();
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.2/dist/js/bootstrap.bundle.min.js"></script>
 </body>
 </html>
+<?php
+
+?>

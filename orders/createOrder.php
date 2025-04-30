@@ -5,7 +5,7 @@
 require_once '../connect.php';
 
 // data needed to create order
-$userId = $_SESSION['user_id'];
+$userId = $_SESSION['user_id']||$selectedUserId;
 $status = 'Processing';                 // default
 $notes = "add 3 sugar please";          // need to be handled later
 $totalPrice = $_SESSION['total_price'];

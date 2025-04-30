@@ -1,7 +1,7 @@
 <div class="card rounded-5 p-2 shadow-sm w-fixed">
     <span class="price-badge rounded-5 d-flex justify-content-center align-items-center fw-bold text-dark"><?php echo $drink['price']; ?> $</span>
     <div class="position-relative">
-        <img src="<?php echo './../' . $drink['image_path']; ?>" class="card-img-top rounded-5 border border-light bg-light" alt="<?php echo $drink['name']; ?>">
+        <img src="<?php echo '' . $drink['image_path']; ?>" class="card-img-top rounded-5 border border-light bg-light" alt="<?php echo $drink['name']; ?>">
 
         <?php if ($drink['available']) { ?>
             <span class="stock-badge">

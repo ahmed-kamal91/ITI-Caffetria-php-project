@@ -25,10 +25,10 @@ session_start();
 
 // redirect to login in case not logged in
 if(!isset($_SESSION['user_id'])){
-    header("location: ./../user/login.php");
+    header("location: ../user/login.php");
     exit();
 }
-include('../drinks/header.php');
+include('../headerside.php');
 ?>
 
 
@@ -71,7 +71,7 @@ if (isset($_POST['createOrderBtn'])) {
     include './../orders/adminCreateOrder.php';
     
     $_SESSION['order_created'] = true;              // set a flag
-    header("Location: " . $_SERVER['PHP_SELF']);    // redirect to same page
+    // header("Location: " . $_SERVER['PHP_SELF']);    // redirect to same page
     exit();
 }
 $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'test';
@@ -116,5 +116,5 @@ if (isset($_SESSION['order_created'])) {
     unset($_SESSION['order_created']);
 }
 
-include('../drinks/footer.php');
+include('../footer.php');
 ?>
