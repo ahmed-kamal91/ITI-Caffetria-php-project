@@ -65,7 +65,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             if ($stmt->execute()) {
                 $success = "User '$name' has been registered successfully!";
                 $_POST = array();
-                header("Location: login.php");
+                header("Location: viewAllUsers.php");
             } else {
                 if ($conn->errno == 1062) {
                     $error = "This email is already registered.";
@@ -138,7 +138,7 @@ $connect->close();
 </head>
 <body>
   <div class="form-container">
-    <h2 class="form-title">User Registration</h2>
+    <h2 class="form-title">Add User</h2>
 
     <?php if (!empty($success)): ?>
       <div class="alert alert-success"><?php echo $success; ?></div>
@@ -184,7 +184,7 @@ $connect->close();
       <img id="imagePreview" alt="Image Preview"/>
 
       <div class="form-buttons">
-        <button type="submit" class="btn btn-primary">Register</button>
+        <button type="submit" class="btn btn-primary">Add</button>
         <button type="reset" class="btn btn-secondary">Clear Form</button>
       </div>
     </form>

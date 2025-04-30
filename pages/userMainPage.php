@@ -1,114 +1,50 @@
-<!-- 
- CONTENT: 
- ========
- 1- LOGIN
- 2- AUTO SCROLL
- 3- ORDER CREATION [embedded] + (handle latest order)
-
- ----main work-------------------------------
- 4- NOTE BUTTON + BS + FONT-AUSOME
- 5- LIST DRINKS + ADD TO WAITER NOTE BY CLICK
- 6- NOTE MODAL
- --------------------------------------------
-
- 7- GREEN TOAST: ORDER CREATED
- 8- HANDLING ORDER TOAST APPEAEANCE
- -->
-
-
-<!-- LOGIN -->
 <?php
-
 session_start();
+
+// Redirect to login if user is not authenticated
 if (!isset($_SESSION['user_id'])) {
     header("Location:../user/login.php");
     exit();
 }
-//   unset($_SESSION['waiterNote']); //for development
 
-// LOGIN [SIMULATION]------------------------------------------
-// $_SESSION['user_id'] = "1";           // id from database [read]
-// //----------------------------
-// $_SESSION['user_name'] = "ahmed";         // name saved based on database
-// $_SESSION['user_role'] = "customer";    // role saved based on db
-// //--------------------------------------------------------------------
-// 
-include('../orders/header.php');
-?>
+// Initialize waiterNote if not set
+if (!isset($_SESSION['waiterNote'])) {
+    $_SESSION['waiterNote'] = []; 
+}
 
-<!-- redirect to the login in case the user id not assigned -->
- <?php
-if(!isset($_SESSION['user_id'])){
-    header("location: ./../user/login.php");
+// Handle order creation
+if (isset($_POST['createOrderBtn'])) {
+    include './../orders/createOrder.php';
+    $_SESSION['order_created'] = true; // Set toast flag
+    header("Location: " . $_SERVER['PHP_SELF']); // Refresh to avoid resubmission
     exit();
 }
 
+// Get user name (fallback to 'test')
 $userName = isset($_SESSION['user_name']) ? $_SESSION['user_name'] : 'test';
 ?>
 
-
-
+<?php include('../orders/header.php'); ?>
+<?php include_once './../header.php'; ?>
+<?php include_once "./../drinks/viewDrinks.php"; ?>
+<?php include_once "./../note/NoteModal.php"; ?>
 
 <!-- AUTO SCROLL -->
 <script>
 window.addEventListener('beforeunload', function() {
     localStorage.setItem('scrollPosition', window.scrollY);
 });
-
 window.addEventListener('load', function() {
     const scrollPosition = localStorage.getItem('scrollPosition');
     if (scrollPosition !== null) {
-        // Temporarily disable smooth scrolling
         document.documentElement.style.scrollBehavior = "auto";
-        
         window.scrollTo(0, scrollPosition);
-        
-        // Re-enable smooth scrolling (optional)
         setTimeout(() => {
             document.documentElement.style.scrollBehavior = "";
-        }, 100); // after 100ms
+        }, 100);
     }
 });
 </script>
-
-
-<!-- ORDER CREATION -->
-<?php
-
-if(!isset($_SESSION['waiterNote'])) {
-    $_SESSION['waiterNote'] = []; 
-}
-
-// for current order
-if (isset($_POST['createOrderBtn'])) {
-
-    // LOGIC OF CREATING THE ORDER HERE
-    include './../orders/createOrder.php';
-    
-    $_SESSION['order_created'] = true; // set a flag
-    // header("Location: " . $_SERVER['PHP_SELF']); // redirect to same page
-    exit();
-}
-
-?>
-
-<!-- NOTE BUTTON + BS + FONT-AUSOME -->
-<?php
-include_once './../header.php'
-?>
-
-
-
- <!-- LIST DRINKS + ADD TO WAITER NOTE BY CLICK-->
-<?php
-include_once "./../drinks/viewDrinks.php";
-?>
-
-<!-- NOTE MODAL -->
-<?php
-include_once "./../note/NoteModal.php";
-?>
-
 
 <!-- GREEN TOAST: ORDER CREATED -->
 <div class="position-fixed bottom-0 start-0 p-3" style="z-index: 1055;">
@@ -122,12 +58,11 @@ include_once "./../note/NoteModal.php";
     </div>
 </div>
 
-
-<!-- HANDLING ORDER TOAST APPEAEANCE -->
 <?php
-// Unset the flag so it doesn't appear again
+// Unset the flag so toast doesn't show again
 if (isset($_SESSION['order_created'])) {
     unset($_SESSION['order_created']);
 }
+
 include('../orders/footer.php');
 ?>

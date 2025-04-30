@@ -145,7 +145,7 @@ $drinkresult = mysqli_query($connect, $drinkQuery);
                         ?>
                         <tr>
                             <td>
-                                <img src="<?php echo '../'.$eachDrink['image_path']; ?>"
+                                <img src="<?php echo ''.$eachDrink['image_path']; ?>"
                                     alt="<?php echo htmlspecialchars($eachDrink['name']); ?>"
                                     class="img-thumbnail"
                                     style="width: 80px; height: 80px; object-fit: cover;">

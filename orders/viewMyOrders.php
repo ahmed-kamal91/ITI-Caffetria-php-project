@@ -1,7 +1,14 @@
+<!-- sdebar -->
+<?php 
+ echo "<div class='container d-flex w-100'>";
+ include_once './sidebar.php'; ?> 
+
 <?php
 include_once '../connect.php';
 include_once './H_viewMyOrder/getUserInfo.php';  
 include_once './H_viewMyOrder/getDrinks.php';   
+
+echo "<div class='container d-flex flex-column'>";
 
 
 // TITLE
@@ -66,4 +73,16 @@ echo "</div></div>";
 /* pagination view
 ----------------------------------------*/
 include './H_viewMyOrder/pagination.php';
+    echo '</div>';
+
+echo '</div>';
+
 ?>
+<head>
+  <!-- Bootstrap 5.3.3 CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+  <!-- Font Awesome 6.5.1 CSS -->
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" rel="stylesheet">
+  <!-- Bootstrap Bundle JS (with Popper) -->
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+</head>

@@ -30,7 +30,7 @@ if(!isset($_SESSION['user_id'])){
 
 <!-- ADDING HEADER SIDE -->
  <?php
- include('../sidebar.php');
+//  include('../sidebar.php');
  ?>
 
 
@@ -91,7 +91,10 @@ include '../header.php'
 
  <!-- LIST DRINKS + ADD TO WAITER NOTE BY CLICK-->
 <?php
+echo "<div class='container d-flex'>";
+ include('../sidebar.php');
 include_once "./../drinks/adminViewUserDrinks.php";
+echo "</div>";
 ?>
 
 <!-- NOTE MODAL -->

@@ -38,6 +38,21 @@
             </a>
         </li>
 
+        <li class='nav-item'>
+            <a class="nav-link" href="../drinks/adminCreateDrink.php">
+            <i class="fas fa-mug-hot"></i> <i class="fas fa-plus"></i>
+            <span> add drink</span>
+            </a>
+        </li>
+
+        <li class='nav-item'>
+            <a class="nav-link" href="../user/addUser.php">
+            <i class="fa-solid fa-user"></i> <i class="fas fa-plus"></i>
+            <span> add user</span>
+            </a>
+        </li>
+
+
 
         <li class="nav-item">
             <a class="nav-link" href="../user/logout.php">
@@ -47,11 +62,7 @@
         </li>
 
 
-        <li class='nav-item'>
-            <a class="nav-link" href="../drinks/adminCreateDrink.php">
-                add zeft
-            </a>
-        </li>
+     
 
     </ul>
 </div>

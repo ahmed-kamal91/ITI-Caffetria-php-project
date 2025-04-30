@@ -37,4 +37,6 @@ foreach ($_SESSION['adminWaiterNote'] as $productId => $productData) {
 
 // Feedback
 echo "Order created successfully. Order ID: " . $orderId;
+
+$_SESSION['adminWaiterNote'] = [];
 ?>
